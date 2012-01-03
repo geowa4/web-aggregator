@@ -1,3 +1,5 @@
+package models
+
 case class Post(url: String, content: String)
 
 object Post { 

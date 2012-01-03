@@ -1,7 +1,11 @@
-@(message: String)
+@(feed: Seq[Post])
 
-@main("Welcome to Play 2.0 beta") {
-    
-    @play20.welcome(message)
+@main("Web Aggregation") {
+ 
+<ul>
+	@feed.map { post =>
+	<li><a href="@post.url">@post.content</a></li>
+	}
+</ul>
     
 }
