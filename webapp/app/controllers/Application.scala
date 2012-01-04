@@ -10,5 +10,9 @@ object Application extends Controller {
   def index = Action {
     Ok(views.html.index(Post.all))
   }
+
+	def posts = Action { 
+		Ok(views.xml.posts(Post.all))
+	}
   
 }
