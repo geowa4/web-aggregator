@@ -1,5 +1,7 @@
 package models
 
+//import play.api.libs.json._
+
 case class Post(id: String, url: String, title: String, content: String, published: String, updated: String, provider: String)
 
 object Post { 
@@ -18,6 +20,7 @@ object Post {
   
 }
 
+/*
 implicit object PostFormat extends Format[Post] { 
   def reads(json: JsValue): User = Post.empty
   def writes(p: Post): JsValue = JsObject(List(
@@ -30,3 +33,4 @@ implicit object PostFormat extends Format[Post] {
 	"provider" -> JsString(p.provider)
   ))
 }
+*/
