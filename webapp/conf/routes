@@ -5,7 +5,9 @@
 # Home page
 GET	   /				controllers.Application.index()
 
-GET	   /posts.xml		controllers.Application.postsXML()
+GET	   /posts/:id.xml		controllers.Application.show(id: String)
+
+GET	   /posts.xml		controllers.Application.list()
 
 #GET	   /posts.json		controllers.Application.postsJSON()
 

@@ -12,8 +12,14 @@ object Application extends Controller {
     Ok(views.html.index(Post.all))
   }
 
-  def postsXML = Action { 
+  def list = Action { 
 	Ok(views.xml.posts(Post.all))
+  }
+
+  def show(id: String) = Action { 
+	Post.findById(id).map { post =>
+	  Ok(views.xml.posts(List(post)))
+	} getOrElse NotFound
   }
 
 /*
