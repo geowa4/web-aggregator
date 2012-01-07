@@ -1,0 +1,10 @@
+@(posts: Seq[Post])
+[
+@posts.map { post =>
+  {
+    "id": "@post.id",
+   	"title": "@post.title",
+	"url": "@post.url"
+  }
+}
+]

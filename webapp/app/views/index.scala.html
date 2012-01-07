@@ -1,11 +1,15 @@
 @(feed: Seq[Post])
 
 @main("Web Aggregation") {
- 
+
 <ul>
 	@feed.map { post =>
-	<li><a href="@post.url">@post.content</a></li>
+	<li><a href="@post.url">@post.title</a></li>
 	}
-</ul>
-    
-}
+</ul>   
+
+} {
+
+<link href="posts.xml" type="application/atom+xml" rel="alternate" title="Posts ATOM Feed" />
+
+} 
