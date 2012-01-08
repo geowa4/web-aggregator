@@ -1,15 +1,11 @@
-@(title: String)(content: Html)(extras: Html = Html.empty, styles: Html = Html.empty, scripts: Html = Html.empty)
+@(title: String)(head: Html)(content: Html)
 
 <!DOCTYPE html>
 <html>
   <head>
     <title>@title</title>
 	<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-	@extras
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.less")">
-	@styles
-    <script src="@routes.Assets.at("javascripts/jquery-1.6.4.min.js")" type="text/javascript"></script>
-	@scripts
+	@head
   </head>
   <body>
 	<header>

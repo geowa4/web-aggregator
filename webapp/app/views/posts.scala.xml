@@ -14,7 +14,7 @@
 	<entry>
 		<title>@post.title</title>
 		<link href="@post.url" />
-		<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+		<id>@post.id</id>
 		<updated>@post.updated</updated>
 		<summary>@post.content</summary>
 	</entry>
