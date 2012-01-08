@@ -45,8 +45,8 @@ $(function() {
 	});
 
 	// Expose Post objects
-	window.Post = Post;
-	window.Posts = Posts;
+	//window.Post = Post;
+	window.Posts = new Posts;
 
 	/*
 	  Usage:
