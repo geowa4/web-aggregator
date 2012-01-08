@@ -2,15 +2,20 @@
 
 @main("Web Aggregation") {
 
+<link href="posts.xml" type="application/atom+xml" rel="alternate" title="Posts ATOM Feed" />
+
+<script src="@routes.Assets.at("javascripts/lib/jquery/js/jquery-1.6.2.min.js")"></script>
+<script src="@routes.Assets.at("javascripts/lib/jquery/js/jquery-ui-1.8.16.custom.min.js")"></script>
+<script src="@routes.Assets.at("javascripts/lib/underscore.js")"></script>
+<script src="@routes.Assets.at("javascripts/lib/backbone.js")"></script>
+<script src="@routes.Assets.at("javascripts/models/post.js")"></script>
+
+} {
+
 <ul>
 	@feed.map { post =>
 	<li><a href="@post.url">@post.title</a></li>
 	}
 </ul>   
-
-} {
-
-<link href="posts.xml" type="application/atom+xml" rel="alternate" title="Posts ATOM Feed" />
-<script src="javascripts/models/post.js"></script>
 
 }
