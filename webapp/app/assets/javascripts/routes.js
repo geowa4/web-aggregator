@@ -13,6 +13,7 @@ $(function() {
 					Posts.each(function(post) {
 						console.log(post.get('title'));
 					});
+					$('#aggregate').postList({posts: Posts});
 				}
 			});
 		}

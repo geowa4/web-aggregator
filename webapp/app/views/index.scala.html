@@ -9,14 +9,11 @@
 <script src="@routes.Assets.at("javascripts/lib/underscore.js")"></script>
 <script src="@routes.Assets.at("javascripts/lib/backbone.js")"></script>
 <script src="@routes.Assets.at("javascripts/models/post.js")"></script>
+<script src="@routes.Assets.at("javascripts/views/post-list.js")"></script>
 <script src="@routes.Assets.at("javascripts/routes.js")"></script>
 
 } {
 
-<ul>
-	@feed.map { post =>
-	<li><a href="@post.url">@post.title</a></li>
-	}
-</ul>   
+<div id="aggregate"></div>
 
 }
