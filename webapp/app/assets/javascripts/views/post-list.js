@@ -42,7 +42,7 @@
 						self.element.find('ul.post-items').append($postItem);
 						self.items[post.id] = $postItem;
 					} else {
-						$postItem.find('a').text(post.get('content'));
+						$postItem.find('a').text(post.get('title'));
 					}
 				});
 			}

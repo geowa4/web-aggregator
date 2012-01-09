@@ -5,14 +5,14 @@ $(function() {
 		},
 
 		posts: function() {
+			Posts.bind('change', function() {
+				$('#aggregate').postList('refresh');
+			});
 			Posts.fetch({
 				contentType: 'application/xml', 
 				dataType: 'xml', 
 				processData: false,
 				success: function() {
-					Posts.each(function(post) {
-						console.log(post.get('title'));
-					});
 					$('#aggregate').postList({posts: Posts});
 				}
 			});
