@@ -16,7 +16,9 @@
 
 		_setOption: function(key, value) {
 			switch(key) {
-			case "posts": break;
+			case "posts": 
+				this.refresh();
+				break;
 			}
 
 			$.Widget.prototype._setOption.apply(this, arguments);
@@ -26,9 +28,22 @@
 		_create: function() {
 			var $el = this.element;
 			var $postItems = $('<ul>').addClass('post-items').appendTo($el);
+			this.refresh();
+		},
+
+		refresh: function() {
+			this.items = this.items || {};
+			var self = this;
 			if(this.options.posts) {
 				this.options.posts.each(function(post) {
-					$postItems.append(postListTemplate({post: post}));
+					var $postItem = self.items[post.id];
+					if($postItem === undefined) {
+						$postItem = $(postListTemplate({post: post}));
+						self.element.find('ul.post-items').append($postItem);
+						self.items[post.id] = $postItem;
+					} else {
+						$postItem.find('a').text(post.get('content'));
+					}
 				});
 			}
 		}
