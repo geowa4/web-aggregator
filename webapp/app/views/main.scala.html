@@ -1,29 +1,31 @@
-@(title: String)(head: Html)(content: Html)
+@(title: String)(head: Html)(content: Html = Html.empty)
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>@title</title>
+    <title>George Adams IV - @title</title>
 	<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 	<link href="@routes.Assets.at("css/style.css")" type="text/css" rel="stylesheet" media="screen"/>
-	<script src="@routes.Assets.at("javascripts/lib/jquery/js/jquery-1.6.2.min.js")"></script>
+	<script src="@routes.Assets.at("javascripts/lib/jquery/js/jquery-1.7.1.min.js")"></script>
 	<script src="@routes.Assets.at("javascripts/lib/jquery/js/jquery-ui-1.8.16.custom.min.js")"></script>
 	<script src="@routes.Assets.at("javascripts/lib/underscore.js")"></script>
 	<script src="@routes.Assets.at("javascripts/lib/backbone.js")"></script>
 	@head
+	<script src="@routes.Assets.at("javascripts/routes.js")"></script>
   </head>
   <body>
 	<header>
 	  <hgroup>
-		<h1>@title</h1>
+		<h1>George Adams IV</h1>
+		<h2>@title</h2>
 	  </hgroup>
 	</header>
-	<section id="sidebar">
+	<nav>
 	  <ul>
 		<li><a href="/">My Posts</a></li>
 		<li><a href="/about">About This Site</a></li>
 	  </ul>
-	</section>
+	</nav>
     <section id="content">@content</section>
   </body>
 </html>

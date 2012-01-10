@@ -1,24 +1,34 @@
 $(function() {
 	var ApplicationRouter = Backbone.Router.extend({
 		routes: {
-			"": "posts"
+			"": "posts",
+			"about": "about"
 		},
 
 		posts: function() {
 			Posts.bind('change', function() {
-				$('#aggregate').postList('refresh');
+				$('#content').postList('refresh');
 			});
 			Posts.fetch({
 				contentType: 'application/xml', 
 				dataType: 'xml', 
 				processData: false,
 				success: function() {
-					$('#aggregate').postList({posts: Posts});
+					$('#content').postList({posts: Posts});
 				}
 			});
+		},
+
+		about: function() {
+			alert('hi');
 		}
 	});
 
-	new ApplicationRouter;
+	var app = new ApplicationRouter;
 	Backbone.history.start({pushState: true});
+
+	$('nav').on('click', 'a', function() {
+		app.navigate($(this).attr('href'), true);
+		return false;
+	});
 });
