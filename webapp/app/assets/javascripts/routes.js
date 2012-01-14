@@ -10,9 +10,6 @@ $(function() {
 				$('#content').postList('refresh');
 			});
 			Posts.fetch({
-				contentType: 'application/xml', 
-				dataType: 'xml', 
-				processData: false,
 				success: function() {
 					$('#content').postList({posts: Posts});
 				}

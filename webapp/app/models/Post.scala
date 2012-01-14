@@ -1,6 +1,6 @@
 package models
 
-//import play.api.libs.json._
+import play.api.libs.json._
 
 case class Post(id: String, url: String, title: String, content: String, published: String, updated: String, provider: String)
 
@@ -22,19 +22,17 @@ object Post {
 
   def findById(id: String) = Post.all.find { _.id == id }
   
-}
 
-/*
-implicit object PostFormat extends Format[Post] { 
-  def reads(json: JsValue): User = Post.empty
-  def writes(p: Post): JsValue = JsObject(List(
-    "id" -> JsString(p.id),
-	"url" -> JsString(p.url),
-    "title" -> JsString(p.name),
-	"content" -> JsString(p.content),
-	"published" -> JsString(p.published),
-	"updated" -> JsString(p.updated),
-	"provider" -> JsString(p.provider)
-  ))
+  implicit object PostFormat extends Format[Post] { 
+	def reads(json: JsValue): Post = Post.empty
+	def writes(p: Post): JsValue = JsObject(List(
+      "id" -> JsString(p.id),
+	  "url" -> JsString(p.url),
+      "title" -> JsString(p.title),
+	  "content" -> JsString(p.content),
+	  "published" -> JsString(p.published),
+	  "updated" -> JsString(p.updated),
+	  "provider" -> JsString(p.provider)
+	))
+  }
 }
-*/
