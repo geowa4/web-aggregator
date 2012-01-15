@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>George Adams IV - @title</title>
+    <title>George Adams IV - Was It Something I Said?</title>
 	<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+	<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css" media="screen">
 	<link href="@routes.Assets.at("css/style.css")" type="text/css" rel="stylesheet" media="screen"/>
 	<script src="@routes.Assets.at("javascripts/lib/head.min.js")"></script>
 	<script>
@@ -21,20 +22,38 @@
 	@head
   </head>
   <body>
-	<header>
-	  <hgroup>
-		<h1>Was It Something I Said?</h1>
-		<h2>George Adams IV</h2>
-	  </hgroup>
-	</header>
-	<nav>
-	  <ul>
-		<li><a href="">My Posts</a></li>
-		<li><a href="about">About This Site</a></li>
-	  </ul>
-	</nav>
-    <section id="content">
-	  <h3>My Feed</h3>
-	</section>
+	<div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="">Was It Something I Said?</a>
+          <ul class="nav">
+            <li class="active"><a href="">Home</a></li>
+            <li><a href="about">About</a></li>
+          </ul>
+          <form action="" class="pull-right">
+            <input class="input-small" type="text" placeholder="Search"/>
+            <button class="btn" type="submit">Go</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="content">
+        <div class="page-header">
+          <h1>George Adams IV <small>Public Feed</small></h1>
+        </div>
+        <div class="row">
+          <div id="feed" class="span10">
+            <h2>Main content</h2>
+          </div>
+          <div id="post-meta" class="span4">
+            <h3>Secondary content</h3>
+          </div>
+        </div>
+      </div>
+	  <footer>
+		<p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> Creative Commons Attribution 3.0 Unported License</a>.</p>
+	  </footer>
+    </div> <!-- /container -->
   </body>
 </html>

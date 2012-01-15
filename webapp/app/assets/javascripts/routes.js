@@ -7,11 +7,11 @@ $(function() {
 
 		posts: function() {
 			Posts.bind('change', function() {
-				$('#content').postList('refresh');
+				$('#feed').postList('refresh');
 			});
 			Posts.fetch({
 				success: function() {
-					$('#content').postList({posts: Posts});
+					$('#feed').postList({posts: Posts});
 				}
 			});
 		},
@@ -24,7 +24,7 @@ $(function() {
 	var app = new ApplicationRouter;
 	Backbone.history.start({pushState: true});
 
-	$('nav').on('click', 'a', function() {
+	$('ul.nav').on('click', 'a', function() {
 		app.navigate($(this).attr('href'), true);
 		return false;
 	});
