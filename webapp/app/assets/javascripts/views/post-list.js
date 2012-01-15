@@ -1,8 +1,11 @@
 (function($) {
 	var postListTemplate = _.template(
-		'<li class="post-snippet" data-id="<%= post.id %>">' + 
+		'<article class="post-snippet" data-id="<%= post.id %>">' + 
+			'<h3>' + 
 			'<a href="<%= post.get("url") %>"><%= post.get("title") %></a>' +
-			'</li>'
+			'</h3>' + 
+			'<p><%= post.get("content") %></p>' +
+			'</article>'
 	);
 
 	/**
@@ -26,8 +29,6 @@
 		},
 
 		_create: function() {
-			var $el = this.element;
-			var $postItems = $('<ul>').addClass('post-items').appendTo($el);
 			this.refresh();
 		},
 
@@ -39,7 +40,7 @@
 					var $postItem = self.items[post.id];
 					if($postItem === undefined) {
 						$postItem = $(postListTemplate({post: post}));
-						self.element.find('ul.post-items').append($postItem);
+						self.element.append($postItem);
 						self.items[post.id] = $postItem;
 					} else {
 						$postItem.find('a').text(post.get('title'));
