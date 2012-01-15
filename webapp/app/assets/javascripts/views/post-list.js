@@ -42,7 +42,9 @@
 						self.element.append($postItem);
 						self.items[post.id] = $postItem;
 					} else {
-						$postItem.find('a').text(post.get('title'));
+						$postItem.find('h3').text(post.get('title'));
+						$postItem.find('p').html(post.get('content'));
+						$postItem.find('footer a').attr('href', post.get('url'));
 					}
 				});
 			}
