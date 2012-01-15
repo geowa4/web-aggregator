@@ -1,10 +1,9 @@
 (function($) {
 	var postListTemplate = _.template(
 		'<article class="post-snippet" data-id="<%= post.id %>">' + 
-			'<h3>' + 
-			'<a href="<%= post.get("url") %>"><%= post.get("title") %></a>' +
-			'</h3>' + 
-			'<p><%= post.get("content") %></p>' +
+			'<header><h3><%= post.get("title") %></h3></header>' + 
+			'<section><p><%= post.get("content") %></p></section>' +
+			'<footer><a href="<%= post.get("url") %>">Original Post</a></footer>' +
 			'</article>'
 	);
 

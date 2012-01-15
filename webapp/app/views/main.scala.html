@@ -6,18 +6,25 @@
     <title>George Adams IV - @title</title>
 	<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
 	<link href="@routes.Assets.at("css/style.css")" type="text/css" rel="stylesheet" media="screen"/>
-	<script src="@routes.Assets.at("javascripts/lib/jquery/js/jquery-1.7.1.min.js")"></script>
-	<script src="@routes.Assets.at("javascripts/lib/jquery/js/jquery-ui-1.8.16.custom.min.js")"></script>
-	<script src="@routes.Assets.at("javascripts/lib/underscore.js")"></script>
-	<script src="@routes.Assets.at("javascripts/lib/backbone.js")"></script>
+	<script src="@routes.Assets.at("javascripts/lib/head.min.js")"></script>
+	<script>
+	  head.js(
+	  "@routes.Assets.at("javascripts/lib/jquery/js/jquery-1.7.1.min.js")",
+	  "@routes.Assets.at("javascripts/lib/jquery/js/jquery-ui-1.8.16.custom.min.js")",
+	  "@routes.Assets.at("javascripts/lib/underscore.js")",
+	  "@routes.Assets.at("javascripts/lib/backbone.js")",
+	  "@routes.Assets.at("javascripts/models/post.js")",
+	  "@routes.Assets.at("javascripts/views/post-list.js")",
+	  "@routes.Assets.at("javascripts/routes.js")"
+	  );
+	</script>
 	@head
-	<script src="@routes.Assets.at("javascripts/routes.js")"></script>
   </head>
   <body>
 	<header>
 	  <hgroup>
-		<h1>George Adams IV</h1>
-		<h2>@title</h2>
+		<h1>Was It Something I Said?</h1>
+		<h2>George Adams IV</h2>
 	  </hgroup>
 	</header>
 	<nav>
@@ -26,6 +33,6 @@
 		<li><a href="about">About This Site</a></li>
 	  </ul>
 	</nav>
-    <section id="content">@content</section>
+    <div id="content"></div>
   </body>
 </html>
