@@ -7,8 +7,8 @@
 			'<p><%= post.get("content") %></p>' +
 			'</article>'
 	);
-	var publishDateTemplate = _.template('<time pubdate datetime="<%= post.get("published") %>"><%= post.get("published") %></time>');
-	var updateDateTemplate = _.template('<time datetime="<%= post.get("updated") %>"><%= post.get("updated") %></time>');
+	var publishDateTemplate = _.template('<time pubdate datetime="<%= date.toISOString() %>"><%= date.toLocaleDateString() %></time>');
+	var updateDateTemplate = _.template('<time datetime="<%= date.toISOString() %>"><%= date.toLocaleDateString() %></time>');
 
 	/**
 	   This widget relies on Underscore and 
@@ -50,14 +50,22 @@
 						self.postList.append(postItem);
 						self.items[post.id] = postItem;
 						self.sourceLink.attr('href', post.get('url'));
-						self.publishDate.html(publishDateTemplate({post: post}));
-						self.updateDate.html(updateDateTemplate({post: post}));
+						self.publishDate.html(publishDateTemplate({
+							date: post.get('published')
+						}));
+						self.updateDate.html(updateDateTemplate({
+							date: post.get('updated')
+						}));
 					} else {
 						postItem.find('h3').text(post.get('title'));
 						postItem.find('p').html(post.get('content'));
 						self.sourceLink.attr('href', post.get('url'));
-						self.publishDate.html(publishDateTemplate({post: Post}));
-						self.updateDate.html(updateDateTemplate({post: Post}));
+						self.publishDate.html(publishDateTemplate({
+							date: post.get('published')
+						}));
+						self.updateDate.html(updateDateTemplate({
+							date: post.get('updated')
+						}));
 					}
 				});
 			}
