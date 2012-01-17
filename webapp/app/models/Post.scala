@@ -17,7 +17,6 @@ object PostMongo extends MongoIdentifier {
   private var mongo: Option[Mongo] = None
 
   def connectToMongo = { 
-	Console.println("connecting")
     val MongoPort = 27017
     mongo = Some(new Mongo(new ServerAddress("localhost", MongoPort)))
     MongoDB.defineDb(PostMongo, mongo.get, "web-aggregator")
@@ -29,7 +28,6 @@ object PostMongo extends MongoIdentifier {
     mongo = None
   }
 
-  connectToMongo
 }
 
 class Post extends MongoRecord[Post] with MongoId[Post] with IndexedRecord[Post] {
