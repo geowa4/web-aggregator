@@ -1,38 +1,71 @@
 package models
 
 import play.api.libs.json._
+import com.foursquare.rogue._
+import com.foursquare.rogue.Rogue._
+import com.mongodb.{Mongo, ServerAddress}
+import net.liftweb.mongodb.{MongoDB, MongoIdentifier}
+import net.liftweb.mongodb.record._
+import net.liftweb.mongodb.record.field._
+import net.liftweb.record.field._
+import net.liftweb.record._
+import org.bson.types.ObjectId
 
-case class Post(id: String, url: String, title: String, content: String, published: String, updated: String, provider: String)
+object PostMongo extends MongoIdentifier { 
+  override def jndiName = "post_mongo"
 
-object Post { 
+  private var mongo: Option[Mongo] = None
 
-  val empty = Post("", "", "", "", "", "", "")
+  def connectToMongo = { 
+	Console.println("connecting")
+    val MongoPort = 27017
+    mongo = Some(new Mongo(new ServerAddress("localhost", MongoPort)))
+    MongoDB.defineDb(PostMongo, mongo.get, "web-aggregator")
+  }
 
-  val sample = Post("1",
-		 "https://plus.google.com/107365737413130005765/posts/RYanxDo7Q7Y", 
-		 "Tonight, +Melissa Palumbo and I were choosing readings for our wedding. We were supposed to pick ...",
-		 "Tonight, <span class=\"proflinkWrapper\"><span class=\"proflinkPrefix\">+</span><a href=\"https://plus.google.com/116280018791576760522\" class=\"proflink\" oid=\"116280018791576760522\">Melissa Palumbo</a></span> and I were choosing readings for our wedding. We were supposed to pick ones that conveyed a message of some kind about our love. We ended up picking some of the <i>shortest</i> ones (that weren&#39;t horribly misogynistic). How nice!",
-		 "2012-01-06T02:01:48.000Z", 
-		 "2012-01-06T02:01:48.496Z", 
-		 "Google+")
+  def disconnectFromMongo = {
+    mongo.foreach(_.close)
+    MongoDB.close
+    mongo = None
+  }
 
-  def all = Seq(
-	Post.sample
-  )
+  connectToMongo
+}
 
-  def findById(id: String) = Post.all.find { _.id == id }
-  
+class Post extends MongoRecord[Post] with MongoId[Post] with IndexedRecord[Post] {
+
+  def meta = Post
+  object url extends StringField(this, 255)
+  object title extends StringField(this, 255)
+  object content extends StringField(this, 1000)
+  object published extends StringField(this, 255)
+  object updated extends StringField(this, 255)
+  object provider extends StringField(this, 255)
+
+}
+
+object Post extends Post with MongoMetaRecord[Post] { 
+  override def collectionName = "posts"
+  override def mongoIdentifier = PostMongo 
+
+  val idIdx = Post.index(_._id, Asc)
+  val updatedIdx = Post.index(_.updated, Asc)
+  override val mongoIndexList = List(idIdx, updatedIdx)
+
+  def all = Post where (_._id exists true) fetch()
+
+  def byId(id: String) = Post where (_._id eqs new ObjectId(id)) get()
 
   implicit object PostFormat extends Format[Post] { 
-	def reads(json: JsValue): Post = Post.empty
+	def reads(json: JsValue): Post = null
 	def writes(p: Post): JsValue = JsObject(List(
-      "id" -> JsString(p.id),
-	  "url" -> JsString(p.url),
-      "title" -> JsString(p.title),
-	  "content" -> JsString(p.content),
-	  "published" -> JsString(p.published),
-	  "updated" -> JsString(p.updated),
-	  "provider" -> JsString(p.provider)
+      "id" -> JsString(p._id.toString()),
+	  "url" -> JsString(p.url.toString()),
+      "title" -> JsString(p.title.toString()),
+	  "content" -> JsString(p.content.toString()),
+	  "published" -> JsString(p.published.toString()),
+	  "updated" -> JsString(p.updated.toString()),
+	  "provider" -> JsString(p.provider.toString())
 	))
   }
 }

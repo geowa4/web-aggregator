@@ -4,12 +4,15 @@ import PlayProject._
 
 object ApplicationBuild extends Build {
 
-    val appName         = "was-it-something-i-said"
+    val appName         = "web-aggregator"
     val appVersion      = "1.0"
 
     val appDependencies = Seq(
-      // Add your project dependencies here,
-    )
+	  "org.joda" % "joda-convert" % "1.2",
+	  "joda-time" % "joda-time" % "2.0",
+	  "net.liftweb"    %% "lift-mongodb-record" % "2.4-RC1",
+	  "com.foursquare" %% "rogue"               % "1.0.29" intransitive()
+	)
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
       // Add your own project settings here      

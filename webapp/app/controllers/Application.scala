@@ -17,9 +17,7 @@ object Application extends Controller {
   }
 
   def show(id: String) = Action { 
-	Post.findById(id).map { post =>
-	  Ok(toJson(post))
-	} getOrElse NotFound
+	Ok(toJson(Post.byId(id).get))
   }
 
   def list = Action { 

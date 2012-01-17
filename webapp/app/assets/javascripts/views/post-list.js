@@ -49,7 +49,9 @@
 						postItem = $(postListTemplate({post: post}));
 						self.postList.append(postItem);
 						self.items[post.id] = postItem;
-						self.sourceLink.attr('href', post.get('url'));
+						self.sourceLink
+							.attr('href', post.get('url'))
+							.text(post.get('provider'));
 						self.publishDate.html(publishDateTemplate({
 							date: post.get('published')
 						}));
@@ -59,7 +61,9 @@
 					} else {
 						postItem.find('h3').text(post.get('title'));
 						postItem.find('p').html(post.get('content'));
-						self.sourceLink.attr('href', post.get('url'));
+						self.sourceLink
+							.attr('href', post.get('url'))
+							.text(post.get('provider'));
 						self.publishDate.html(publishDateTemplate({
 							date: post.get('published')
 						}));
