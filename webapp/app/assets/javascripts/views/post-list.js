@@ -2,7 +2,7 @@
 	var postListTemplate = _.template(
 		'<article class="post-snippet" data-id="<%= post.id %>">' + 
 			'<header>' + 
-			'<h4><%= post.get("title") %></h4>' +
+			'<h3><%= post.get("title") %></h3>' +
 			'</header>' + 
 			'<p><%= post.get("content") %></p>' +
 			'</article>'
