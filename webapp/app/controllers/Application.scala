@@ -8,7 +8,7 @@ import models._
 
 object Application extends Controller {
 
-  def index = Action {
+  def index(path: String) = Action {
     Ok(views.html.index(Post.all))
   }
 
