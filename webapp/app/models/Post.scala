@@ -47,10 +47,11 @@ object Post extends Post with MongoMetaRecord[Post] {
   override def mongoIdentifier = PostMongo 
 
   val idIdx = Post.index(_._id, Asc)
-  val updatedIdx = Post.index(_.updated, Asc)
-  override val mongoIndexList = List(idIdx, updatedIdx)
+  val urlIdx = Post.index(_.url, Asc)
+  val updatedIdx = Post.index(_.updated, Desc)
+  override val mongoIndexList = List(idIdx, urlIdx, updatedIdx)
 
-  def all = Post where (_._id exists true) fetch()
+  def all = Post where (_._id exists true) orderDesc (_.updated) fetch()
 
   def byId(id: String) = Post where (_._id eqs new ObjectId(id)) get()
 
