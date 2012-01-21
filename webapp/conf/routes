@@ -12,5 +12,5 @@ GET	   /posts/:id.json			controllers.Application.show(id: String)
 GET     /assets/*file  	controllers.Assets.at(path="/public", file)
 
 # Content
-GET	   /$path<.*>						controllers.Application.index(path)
+GET	   /$path<.*>				controllers.Application.index(path)
 
