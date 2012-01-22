@@ -33,6 +33,7 @@ object PostMongo extends MongoIdentifier {
 class Post extends MongoRecord[Post] with MongoId[Post] with IndexedRecord[Post] {
 
   def meta = Post
+  object rid extends StringField(this, 255)
   object url extends StringField(this, 255)
   object title extends StringField(this, 255)
   object content extends StringField(this, 1000)
@@ -46,19 +47,19 @@ object Post extends Post with MongoMetaRecord[Post] {
   override def collectionName = "posts"
   override def mongoIdentifier = PostMongo 
 
-  val idIdx = Post.index(_._id, Asc)
+  val idIdx = Post.index(_.rid, Asc)
   val urlIdx = Post.index(_.url, Asc)
   val updatedIdx = Post.index(_.updated, Desc)
   override val mongoIndexList = List(idIdx, urlIdx, updatedIdx)
 
-  def all = Post where (_._id exists true) orderDesc (_.updated) fetch()
+  def all = Post where (_.rid exists true) orderDesc (_.updated) fetch()
 
-  def byId(id: String) = Post where (_._id eqs new ObjectId(id)) get()
+  def byId(id: String) = Post where (_.rid eqs id) get()
 
   implicit object PostFormat extends Format[Post] { 
 	def reads(json: JsValue): Post = null
 	def writes(p: Post): JsValue = JsObject(List(
-      "id" -> JsString(p._id.toString()),
+      "id" -> JsString(p.rid.toString()),
 	  "url" -> JsString(p.url.toString()),
       "title" -> JsString(p.title.toString()),
 	  "content" -> JsString(p.content.toString()),
