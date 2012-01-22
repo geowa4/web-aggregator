@@ -1,14 +1,23 @@
 (function($) {
-	var postListTemplate = _.template(
-		'<article class="post-snippet" data-id="<%= post.id %>">' + 
-			'<header>' + 
-			'<h3><%= post.get("title") %></h3>' +
-			'</header>' + 
-			'<p><%= post.get("content") %></p>' +
-			'</article>'
-	);
-	var publishDateTemplate = _.template('<time pubdate datetime="<%= date.toISOString() %>"><%= date.toLocaleDateString() %></time>');
-	var updateDateTemplate = _.template('<time datetime="<%= date.toISOString() %>"><%= date.toLocaleDateString() %></time>');
+	function buildTemplate(post) {
+		var article = $(document.createElement('article'));
+		var header = $(document.createElement('header'));
+		var provider = $(document.createElement('h3'));
+		var source = $(document.createElement('a'));
+		var pubDate = $(document.createElement('time'));
+		var content = $(document.createElement('p'));
+		provider.text(post.get('provider'));
+		pubDate.attr('pubdate', '')
+			.attr('datetime', post.get('published').toISOString())
+			.text(post.get('published').toLocaleDateString())
+			.appendTo(source);
+		source.attr('href', post.get('url')).appendTo(provider);
+		header.append(provider);
+		content.html(post.get('content'));
+		article.append(header);
+		article.append(content);
+		return article;
+	}
 
 	/**
 	   This widget relies on Underscore and 
@@ -32,10 +41,6 @@
 
 		_create: function() {
 			this.postList = this.element.find('.post-list');
-			this.metaTable = this.element.find('.post-meta table');
-			this.sourceLink = this.metaTable.find('.source-link a');
-			this.publishDate = this.metaTable.find('.publish-date');
-			this.updateDate = this.metaTable.find('.update-date');
 			this.refresh();
 		},
 
@@ -46,30 +51,12 @@
 				this.options.posts.each(function(post) {
 					var postItem = self.items[post.id];
 					if(postItem === undefined) {
-						postItem = $(postListTemplate({post: post}));
+						postItem = $(buildTemplate(post));
 						self.postList.append(postItem);
 						self.items[post.id] = postItem;
-						self.sourceLink
-							.attr('href', post.get('url'))
-							.text(post.get('provider'));
-						self.publishDate.html(publishDateTemplate({
-							date: post.get('published')
-						}));
-						self.updateDate.html(updateDateTemplate({
-							date: post.get('updated')
-						}));
 					} else {
 						postItem.find('h3').text(post.get('title'));
 						postItem.find('p').html(post.get('content'));
-						self.sourceLink
-							.attr('href', post.get('url'))
-							.text(post.get('provider'));
-						self.publishDate.html(publishDateTemplate({
-							date: post.get('published')
-						}));
-						self.updateDate.html(updateDateTemplate({
-							date: post.get('updated')
-						}));
 					}
 				});
 			}
