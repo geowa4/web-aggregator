@@ -37,8 +37,8 @@ class Post extends MongoRecord[Post] with MongoId[Post] with IndexedRecord[Post]
   object url extends StringField(this, 255)
   object title extends StringField(this, 255)
   object content extends StringField(this, 1000)
-  object published extends StringField(this, 255)
-  object updated extends StringField(this, 255)
+  object published extends DateField(this)
+  object updated extends DateField(this)
   object provider extends StringField(this, 255)
 
 }
@@ -48,24 +48,23 @@ object Post extends Post with MongoMetaRecord[Post] {
   override def mongoIdentifier = PostMongo 
 
   val idIdx = Post.index(_.rid, Asc)
-  val urlIdx = Post.index(_.url, Asc)
-  val updatedIdx = Post.index(_.updated, Desc)
-  override val mongoIndexList = List(idIdx, urlIdx, updatedIdx)
+  val publishedIdx = Post.index(_.published, Desc)
+  override val mongoIndexList = List(idIdx, publishedIdx)
 
-  def all = Post where (_.rid exists true) orderDesc (_.updated) fetch()
+  def all = Post where (_.rid exists true) orderDesc (_.published) fetch()
 
   def byId(id: String) = Post where (_.rid eqs id) get()
 
   implicit object PostFormat extends Format[Post] { 
 	def reads(json: JsValue): Post = null
 	def writes(p: Post): JsValue = JsObject(List(
-      "id" -> JsString(p.rid.toString()),
-	  "url" -> JsString(p.url.toString()),
-      "title" -> JsString(p.title.toString()),
-	  "content" -> JsString(p.content.toString()),
-	  "published" -> JsString(p.published.toString()),
-	  "updated" -> JsString(p.updated.toString()),
-	  "provider" -> JsString(p.provider.toString())
+      "id" -> JsString(p.rid.toString),
+	  "url" -> JsString(p.url.toString),
+      "title" -> JsString(p.title.toString),
+	  "content" -> JsString(p.content.toString),
+	  "published" -> JsString(p.published.toString),
+	  "updated" -> JsString(p.updated.toString),
+	  "provider" -> JsString(p.provider.toString)
 	))
   }
 }

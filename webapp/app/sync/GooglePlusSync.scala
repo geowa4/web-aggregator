@@ -5,6 +5,7 @@ import play.api.libs._
 import play.api.libs.concurrent._
 import play.api.libs.json._
 import com.foursquare.rogue.Rogue._
+import org.joda.time.DateTime
 
 import models._
 
@@ -30,30 +31,16 @@ object GooglePlusSync {
 	feed.await(5000).get.json \ "items" match { 
 	  case JsArray(value) => 
         value foreach { jsPost =>
-		  Post.where (_.rid eqs (jsPost \ "id" match { 
-			case JsString(data) => data
-			case _ => ""
-		  })).modify (_.url setTo (jsPost \ "url" match { 
-		    case JsString(data) => data
-		    case _ => ""
-		  })).modify (_.title setTo (jsPost \ "title" match { 
-		    case JsString(data) => data 
-		    case _ => ""
-		  })).modify (_.content setTo (jsPost \ "object" \ "content" match { 
-		    case JsString(data) => data 
-		    case _ => ""
-		  })).modify (_.published setTo (jsPost \ "published" match { 
-		    case JsString(data) => data 
-		    case _ => ""
-		  })).modify (_.updated setTo (jsPost \ "updated" match { 
-		    case JsString(data) => data 
-		    case _ => ""
-		  })).modify (_.provider setTo (jsPost \ "provider" \ "title" match {
-		    case JsString(data) => data 
-		    case _ => ""
-		  })).upsertOne()
+		  Post.where (_.rid eqs (jsPost \ "id").as[String])
+            .modify (_.url setTo (jsPost \ "url").as[String])
+            .modify (_.title setTo (jsPost \ "title").as[String])
+            .modify (_.content setTo (jsPost \ "object" \ "content").as[String])
+            .modify (_.published setTo new DateTime((jsPost \ "published").as[String]).toDate)
+            .modify (_.updated setTo new DateTime((jsPost \ "updated").as[String]).toDate)
+            .modify (_.provider setTo (jsPost \ "provider" \ "title").as[String])
+            .upsertOne()
 		}
-      case _ => None
+      case _ => Unit
 	}
   }
 }
