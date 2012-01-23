@@ -9,7 +9,7 @@ import models._
 object Application extends Controller {
 
   def index(path: String) = Action {
-    Ok(views.html.index(Post.all))
+    Ok(views.html.index())
   }
 
   def atom = Action { 

@@ -1,7 +1,71 @@
-@(feed: Seq[Post])
-
-@main("WISIS") {
-<link href="posts.xml" type="application/atom+xml" rel="alternate" title="Posts ATOM Feed" />
-} { 
-
-}
+@()<!DOCTYPE html>
+<html>
+  <head>
+    <title>George Adams IV - Web Aggregator</title>
+	<link href="posts.xml" type="application/atom+xml" rel="alternate" title="Posts ATOM Feed" />
+	<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+	<link rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap.min.css")" media="screen">
+	<link href="@routes.Assets.at("stylesheets/style.css")" type="text/css" rel="stylesheet" media="screen"/>
+	<script src="@routes.Assets.at("javascripts/lib/head.min.js")"></script>
+	<script>
+	  head.js(
+	  "@routes.Assets.at("javascripts/lib/jquery/js/jquery-1.7.1.min.js")",
+	  "@routes.Assets.at("javascripts/lib/jquery/js/jquery-ui-1.8.16.custom.min.js")",
+	  "@routes.Assets.at("javascripts/lib/underscore.js")",
+	  "@routes.Assets.at("javascripts/lib/backbone.js")",
+	  "@routes.Assets.at("javascripts/models/post.js")",
+	  "@routes.Assets.at("javascripts/views/post-list.js")",
+	  "@routes.Assets.at("javascripts/routes.js")"
+	  );
+	</script>
+  </head>
+  <body>
+	<div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="">Web Aggregator</a>
+          <ul class="nav">
+            <li class="active"><a href="">Home</a></li>
+            <li><a href="about">About</a></li>
+          </ul>
+          <form action="" class="pull-right">
+            <input class="input-large" type="text" placeholder="Search"/>
+            <button class="btn" type="submit">Go</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+	  <header class="masthead">
+		<div class="container">
+		  <h1>George Adams IV <small>Public Feed</small></h1>
+		  <p>An aggregation of my public activity on the Internet.</p>
+		</div>
+	  </header>
+      <div class="content">
+        <div id="feed" class="row">
+          <div class="span10 post-list"></div>
+          <div class="span5 offset1 meta">
+			<div class="about">
+              <h4>About Me</h4>
+			  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			</div>
+			<div>
+			  <h4>Other Sites</h4>
+			  <ul class="unstyled">
+				<li><a href="https://plus.google.com/107365737413130005765">Google+</a></li>
+				<li><a href="https://twitter.com/geowa4">Twitter</a></li>
+				<li><a href="https://www.facebook.com/geowa4">Facebook</a></li>
+				<li><a href="http://stackoverflow.com/users/50214/geowa4">StackOverflow</a></li>
+				<li><a href="https://www.linkedin.com/in/geowa4">LinkedIn</a></li>
+			  </ul>
+			</div>
+          </div>
+        </div>
+      </div>
+	  <footer>
+		<p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> Creative Commons Attribution 3.0 Unported License</a>.</p>
+	  </footer>
+    </div> <!-- /container -->
+  </body>
+</html>
