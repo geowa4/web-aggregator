@@ -11,7 +11,8 @@ $(function() {
 			});
 			Posts.fetch({
 				success: function() {
-					$('#feed').postList({posts: Posts});
+					$('#feed').postList({posts: Posts})
+						.find('p.loading').remove();
 				}
 			});
 		},
