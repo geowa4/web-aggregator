@@ -3,9 +3,8 @@
 # ~~~~
 
 GET	   /posts.xml				controllers.Application.atom()
-
 GET	   /posts.json				controllers.Application.list()
-
+GET	   /posts/more.json			controllers.Application.more(skip: Int ?= 0)
 GET	   /posts/:id.json			controllers.Application.show(id: String)
 
 # Map static resources from the /public folder to the /assets URL path

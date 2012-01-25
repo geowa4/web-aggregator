@@ -24,7 +24,7 @@ object Application extends Controller {
 	Ok(toJson(Post.list))
   }
 
-  def more(skip: Int) = Action { 
+  def more(skip: Int) = Action {
 	Ok(toJson(Post.more(skip)))
   }
 
