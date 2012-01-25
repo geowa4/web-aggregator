@@ -29,4 +29,16 @@ $(function() {
 		app.navigate($(this).attr('href'), true);
 		return false;
 	});
+	
+	//TODO: this should call a fn on postList
+	$('.more-posts .btn').on('click', function() {
+		$.ajax({
+			url:'/posts/more.json', 
+			data: {skip: 20}, 
+			success: function(data) { 
+				console.log(data); 
+			}
+		});
+		return false;
+	});
 });
