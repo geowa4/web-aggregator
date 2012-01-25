@@ -55,7 +55,13 @@
 						self.postList.append(postItem);
 						self.items[post.id] = postItem;
 					} else {
-						postItem.find('h3').text(post.get('title'));
+						postItem.find('h3').text(post.get('porvider'));
+						postItem.find('time')
+							.attr('datetime', 
+								  post.get('published').toISOString())
+							.text(
+								post.get('published').toLocaleDateString());
+						postItem.find('a').attr('href', post.get('url'));
 						postItem.find('p').html(post.get('content'));
 					}
 				});
