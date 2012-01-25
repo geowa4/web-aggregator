@@ -51,9 +51,11 @@ object Post extends Post with MongoMetaRecord[Post] {
   val publishedIdx = Post.index(_.published, Desc)
   override val mongoIndexList = List(idIdx, publishedIdx)
 
-  def all = Post where (_.rid exists true) orderDesc (_.published) fetch()
+  def all = Post where (_.rid exists true) orderDesc (_.published)
 
-  def byId(id: String) = Post where (_.rid eqs id) get()
+  def last(n: Int) = Post.all.limit(n)
+
+  def byId(id: String) = Post where (_.rid eqs id)
 
   implicit object PostFormat extends Format[Post] { 
 	def reads(json: JsValue): Post = null
