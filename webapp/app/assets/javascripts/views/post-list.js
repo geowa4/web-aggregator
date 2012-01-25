@@ -1,5 +1,5 @@
 (function($) {
-	function buildTemplate(post) {
+	function buildPostDom(post) {
 		var article = $(document.createElement('article'));
 		var header = $(document.createElement('header'));
 		var provider = $(document.createElement('h3'));
@@ -51,7 +51,7 @@
 				this.options.posts.each(function(post) {
 					var postItem = self.items[post.id];
 					if(postItem === undefined) {
-						postItem = $(buildTemplate(post));
+						postItem = buildPostDom(post);
 						self.postList.append(postItem);
 						self.items[post.id] = postItem;
 					} else {
