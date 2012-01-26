@@ -1,4 +1,6 @@
 $(function() {
+	var posts = new Posts
+
 	var ApplicationRouter = Backbone.Router.extend({
 		routes: {
 			"": "posts",
@@ -6,19 +8,23 @@ $(function() {
 		},
 
 		posts: function() {
-			Posts.bind('change', function() {
+			posts.bind('change', function() {
 				$('#feed').postList('refresh');
 			});
-			Posts.fetch({
+			posts.bind('add', function() {
+				$('#feed').postList('refresh');
+			});
+			posts.fetch({
 				success: function() {
-					$('#feed').postList({posts: Posts})
+					$('#feed').postList({posts: posts})
 						.find('p.loading').remove();
 				}
 			});
 		},
 
 		about: function() {
-			alert('hi');
+			$('[data-role=page]').fadeOut();
+			$('.about[data-role=page]').fadeIn();
 		}
 	});
 
@@ -30,15 +36,29 @@ $(function() {
 		return false;
 	});
 	
-	//TODO: this should call a fn on postList
-	$('.more-posts .btn').on('click', function() {
-		$.ajax({
-			url:'/posts/more.json', 
-			data: {skip: 20}, 
-			success: function(data) { 
-				console.log(data); 
+	$('.more-posts .btn').on('click', function(evt) {
+		var button = $(this);
+		var morePosts = new Posts
+		morePosts.url = '/posts/more.json';
+		morePosts.fetch({
+			data: {
+				skip: posts.size()
+			},
+			success: function(mp) {
+				if(morePosts.size() === 0) {
+					var noMore = $(document.createElement('p'));
+					noMore.text('There are no more posts to load.')
+						.prepend($(document.createElement('strong'))
+								 .text('Sorry!'));
+					button.closest('p').replaceWith(noMore);
+					noMore.closest('div.more-posts')
+						.removeClass('more-posts')
+						.addClass('alert-message info');
+				} else {
+					posts.add(morePosts.models);
+				}
 			}
 		});
-		return false;
+		evt.preventDefault();
 	});
 });

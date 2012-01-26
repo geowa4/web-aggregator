@@ -25,7 +25,7 @@
 	 */
 	$.widget('ui.postList', {
 		options: {
-			posts: undefined
+			posts: null
 		},
 
 		_setOption: function(key, value) {
@@ -41,30 +41,37 @@
 
 		_create: function() {
 			this.postList = this.element.find('.post-list');
+			this.headPost = null;
+			this.tailPost = null;
 			this.refresh();
 		},
 
 		refresh: function() {
 			this.items = this.items || {};
 			var self = this;
-			if(this.options.posts) {
+			if(this.options.posts !== null) {
+				var currentHead = this.options.posts.first();
+				var lastPostItem = null;
 				this.options.posts.each(function(post) {
 					var postItem = self.items[post.id];
 					if(postItem === undefined) {
 						postItem = buildPostDom(post);
-						self.postList.append(postItem);
+						if(self.headPost === null || 
+						   currentHead === self.headPost) {
+							self.postList.append(postItem);
+						} else {
+							if(lastPostItem === null) {
+								lastPostItem = postItem;
+								self.postList.prepend(postItem);
+							} else {
+								lastPostItem.after(postItem);
+							}
+						}
 						self.items[post.id] = postItem;
-					} else {
-						postItem.find('h3').text(post.get('porvider'));
-						postItem.find('time')
-							.attr('datetime', 
-								  post.get('published').toISOString())
-							.text(
-								post.get('published').toLocaleDateString());
-						postItem.find('a').attr('href', post.get('url'));
-						postItem.find('p').html(post.get('content'));
 					}
 				});
+				this.headPost = this.options.posts.first();
+				this.tailPost = this.options.posts.last();
 			}
 		}
 	});

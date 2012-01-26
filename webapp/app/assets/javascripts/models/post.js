@@ -26,10 +26,11 @@ $(function() {
 
 	var Posts = Backbone.Collection.extend({
 		model: Post,
+
 		url: urlRoot + '.' + dataType
 	});
 
 	// Expose Post objects
 	//window.Post = Post;
-	window.Posts = new Posts;
+	window['Posts'] = Posts;
 });

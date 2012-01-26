@@ -55,7 +55,7 @@ object Post extends Post with MongoMetaRecord[Post] {
 
   def list = allQuery limit (20) fetch
 
-  def more(skip: Int) = allQuery skip (skip) fetch
+  def more(skip: Int) = allQuery limit(20) skip (skip) fetch
 
   def byId(id: String) = Post where (_.rid eqs id) fetch (1)
 
