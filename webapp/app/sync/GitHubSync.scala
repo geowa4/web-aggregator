@@ -11,7 +11,8 @@ import org.apache.abdera.model.{Document,Feed}
 
 import models._
 
-object GitHubSync { 
+object GitHubSync {
+  private val baseURL = "https://github.com/geowa4"
   val service = new Timer
   val abdera = new Abdera
 
@@ -30,14 +31,19 @@ object GitHubSync {
   def sync { 
 	println("Syncing GitHub")
 	var parser = abdera.getParser
-	var url = new URL("https://github.com/geowa4.atom")
+	var url = new URL(baseURL + ".atom")
 	var doc: Document[Feed] = parser.parse(url.openStream, url.toString)
 	var feed = doc.getRoot
 	feed.getEntries foreach { entry =>
+	  var content = Unparsed(entry.getContent).toString
+      content = content.replaceAllLiterally("href=\"/geowa4", 
+											"href=\"" + 
+											baseURL)
+
       Post.where (_.rid eqs entry.getId.toString)
         .modify (_.url setTo entry.getLink("alternate").getHref.toString)
         .modify (_.title setTo entry.getTitle)
-        .modify (_.content setTo Unparsed(entry.getContent).toString)
+        .modify (_.content setTo content)
         .modify (_.published setTo entry.getPublished)
         .modify (_.updated setTo entry.getUpdated)
         .modify (_.provider setTo "GitHub")
