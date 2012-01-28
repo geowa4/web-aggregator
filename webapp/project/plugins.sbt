@@ -5,3 +5,5 @@ resolvers ++= Seq(
 )
 
 addSbtPlugin("play" % "sbt-plugin" % "2.0-RC1-SNAPSHOT")
+
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse" % "1.5.0")

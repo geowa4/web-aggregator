@@ -2,6 +2,7 @@ package sync
 
 import java.util.{Timer,TimerTask}
 import play.api.libs._
+import play.api.libs.ws._
 import play.api.libs.concurrent._
 import play.api.libs.json._
 import com.foursquare.rogue.Rogue._
