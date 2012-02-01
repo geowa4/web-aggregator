@@ -1,5 +1,5 @@
 $(function() {
-	var posts = new Posts
+	var posts = new Posts;
 
 	var ApplicationRouter = Backbone.Router.extend({
 		routes: {
@@ -8,6 +8,8 @@ $(function() {
 		},
 
 		posts: function() {
+			$('ul.nav li.posts').addClass('active');
+			$('.posts[data-role=page]').fadeIn();
 			posts.bind('change', function() {
 				$('#feed').postList('refresh');
 			});
@@ -23,7 +25,7 @@ $(function() {
 		},
 
 		about: function() {
-			$('[data-role=page]').fadeOut();
+			$('ul.nav li.about').addClass('active');
 			$('.about[data-role=page]').fadeIn();
 		}
 	});
@@ -32,7 +34,10 @@ $(function() {
 	Backbone.history.start({pushState: true});
 
 	$('ul.nav').on('click', 'a', function() {
-		app.navigate($(this).attr('href'), true);
+		$('[data-role=page]').fadeOut();
+		var target = $(this);
+		$('ul.nav li').removeClass('active');
+		app.navigate(target.attr('href'), true);
 		return false;
 	});
 	

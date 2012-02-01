@@ -27,10 +27,10 @@
         <div class="container">
           <a class="brand" href="">Web Aggregator</a>
           <ul class="nav">
-            <li class="active"><a href="">Home</a></li>
-            <li><a href="about">About This Site</a></li>
+            <li class="posts"><a href="">Home</a></li>
+            <li class="about"><a href="about">About This Site</a></li>
           </ul>
-          <form action="" class="pull-right">
+          <form action="" id="search" class="pull-right">
             <input class="input-large" type="text" placeholder="Search"/>
             <button class="btn" type="submit">Go</button>
           </form>
@@ -57,7 +57,7 @@
           <div class="span5 offset1 meta">
 			<div class="about">
               <h4>About Me</h4>
-			  <p>I am a Software Engineer at Oracle. My current work is designing and implementing prototype user interfaces. My tools of choice right now are <a href="http://www.balsamiq.com/products/mockups">Balsamiq Mockups</a> (wireframing) and a host of JavaScript and CSS libraries including jQuery (UI and Mobile), Underscore, Backbone, and Bootstrap, to name a few.</p>
+			  <p>I am a Software Engineer at Oracle. My current work is designing and implementing prototype user interfaces. My tools of choice right now are <a href="http://www.balsamiq.com/products/mockups">Balsamiq Mockups</a> (wireframing) and a host of JavaScript and CSS libraries including <a href="http://jquery.com">jQuery</a> (<a href="http://jqueryui.com/">UI</a> and <a href="http://jquerymobile.com">Mobile</a>), <a href="http://documentcloud.github.com/underscore/">Underscore</a>, <a href="http://documentcloud.github.com/backbone/">Backbone</a>, and <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, to name a few.</p>
 			</div>
 			<div>
 			  <h4>Other Sites</h4>
@@ -77,5 +77,22 @@
 		<p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> Creative Commons Attribution 3.0 Unported License</a>.</p>
 	  </footer>
     </div> <!-- /posts container -->
+	<div class="about container" data-role="page">
+	  <header class="masthead" data-role="header">
+		<div class="container">
+		  <h1>About This Site</h1>
+		  <p>Who? What? Why?</p>
+		</div>
+	  </header>
+      <section class="content" data-role="content">
+        <div class="row">
+          <div class="span10">
+			<p>foo</p>
+		  </div>
+		  <div class="span5 offset1">
+			<p>foo</p>
+		  </div>
+		</div>
+	  </section>
   </body>
 </html>
