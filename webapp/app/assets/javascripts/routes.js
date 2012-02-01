@@ -33,13 +33,15 @@ $(function() {
 	var app = new ApplicationRouter;
 	Backbone.history.start({pushState: true});
 
-	$('ul.nav').on('click', 'a', function() {
+	function navigate() {
 		$('[data-role=page]').fadeOut();
 		var target = $(this);
 		$('ul.nav li').removeClass('active');
 		app.navigate(target.attr('href'), true);
 		return false;
-	});
+	}
+	$('ul.nav').on('click', 'a', navigate);
+	$('a.brand').on('click', navigate);
 	
 	$('.more-posts .btn').on('click', function(evt) {
 		var button = $(this);
