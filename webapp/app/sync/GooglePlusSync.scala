@@ -28,20 +28,24 @@ object GooglePlusSync {
 
   def sync { 
 	println("Syncing Google+")
-	val feed: Promise[ws.Response] = WS.url("https://www.googleapis.com/plus/v1/people/107365737413130005765/activities/public?key=AIzaSyBaWFITSxalsX9sG9Qb2GmO0AQzDCgNlD4").get()
-	feed.await(5000).get.json \ "items" match { 
-	  case JsArray(value) => 
-        value foreach { jsPost =>
-		  Post.where (_.rid eqs (jsPost \ "id").as[String])
-            .modify (_.url setTo (jsPost \ "url").as[String])
-            .modify (_.title setTo (jsPost \ "title").as[String])
-            .modify (_.content setTo (jsPost \ "object" \ "content").as[String])
-            .modify (_.published setTo new DateTime((jsPost \ "published").as[String]).toDate)
-            .modify (_.updated setTo new DateTime((jsPost \ "updated").as[String]).toDate)
-            .modify (_.provider setTo (jsPost \ "provider" \ "title").as[String])
-            .upsertOne()
-		}
-      case _ => Unit
+	try {
+	  val feed: Promise[ws.Response] = WS.url("https://www.googleapis.com/plus/v1/people/107365737413130005765/activities/public?key=AIzaSyBaWFITSxalsX9sG9Qb2GmO0AQzDCgNlD4").get();
+	  feed.await(5000).get.json \ "items" match { 
+		case JsArray(value) => 
+          value foreach { jsPost =>
+			Post.where (_.rid eqs (jsPost \ "id").as[String])
+						 .modify (_.url setTo (jsPost \ "url").as[String])
+						 .modify (_.title setTo (jsPost \ "title").as[String])
+						 .modify (_.content setTo (jsPost \ "object" \ "content").as[String])
+						 .modify (_.published setTo new DateTime((jsPost \ "published").as[String]).toDate)
+						 .modify (_.updated setTo new DateTime((jsPost \ "updated").as[String]).toDate)
+						 .modify (_.provider setTo (jsPost \ "provider" \ "title").as[String])
+						 .upsertOne()
+					   }
+		case _ => Unit
+	  }
+	} catch { 
+	  case _ => println("Error syncing Google+")
 	}
   }
 }
