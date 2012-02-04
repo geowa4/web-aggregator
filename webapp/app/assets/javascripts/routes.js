@@ -4,10 +4,17 @@ $(function() {
 	var ApplicationRouter = Backbone.Router.extend({
 		routes: {
 			"": "posts",
+			"/": "posts",
 			"about": "about"
 		},
 
+		_preRoute: function() {
+			$('[data-role=page]').fadeOut();
+			$('ul.nav li').removeClass('active');
+		},
+
 		posts: function() {
+			this._preRoute();
 			$('ul.nav li.posts').addClass('active');
 			$('.posts[data-role=page]').fadeIn();
 			posts.bind('change', function() {
@@ -25,6 +32,7 @@ $(function() {
 		},
 
 		about: function() {
+			this._preRoute();
 			$('ul.nav li.about').addClass('active');
 			$('.about[data-role=page]').fadeIn();
 		}
@@ -34,13 +42,10 @@ $(function() {
 	Backbone.history.start({pushState: true});
 
 	function navigate() {
-		$('[data-role=page]').fadeOut();
-		var target = $(this);
-		$('ul.nav li').removeClass('active');
-		app.navigate(target.attr('href'), true);
+		app.navigate($(this).attr('href'), true);
 		return false;
 	}
-	$('ul.nav').on('click', 'a', navigate);
+	$('ul.nav a').on('click', 'a', navigate);
 	$('a.brand').on('click', navigate);
 	
 	$('.more-posts .btn').on('click', function(evt) {
