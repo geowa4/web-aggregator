@@ -6,15 +6,18 @@
     <title>George Adams IV - Web Aggregator</title>
 	<link href="posts.xml" type="application/atom+xml" rel="alternate" title="Posts ATOM Feed" />
 	<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-	<link rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap.min.css")" media="all">
+	<link rel="stilesheet" href="@routes.Assets.at("lib/jquery/css/cupertino/jquery-ui-1.8.17.custom.css")">
+	<link rel="stylesheet" href="@routes.Assets.at("lib/bootstrap/css/bootstrap.min.css")">
+	<link rel="stylesheet" href="@routes.Assets.at("lib/bootstrap/css/bootstrap-responsive.min.css")">
 	<link href="@routes.Assets.at("stylesheets/style.css")" type="text/css" rel="stylesheet" media="screen"/>
-	<script src="@routes.Assets.at("javascripts/lib/head.min.js")"></script>
+	<script src="@routes.Assets.at("lib/head.min.js")"></script>
 	<script>
 	  head.js(
-	  "@routes.Assets.at("javascripts/lib/jquery/js/jquery-1.7.1.min.js")",
-	  "@routes.Assets.at("javascripts/lib/jquery/js/jquery-ui-1.8.16.custom.min.js")",
-	  "@routes.Assets.at("javascripts/lib/underscore.js")",
-	  "@routes.Assets.at("javascripts/lib/backbone.js")",
+	  "@routes.Assets.at("lib/jquery/js/jquery-1.7.1.min.js")",
+	  "@routes.Assets.at("lib/jquery/js/jquery-ui-1.8.17.custom.min.js")",
+	  "@routes.Assets.at("lib/bootstrap/js/bootstrap.min.js")",
+	  "@routes.Assets.at("lib/underscore-min.js")",
+	  "@routes.Assets.at("lib/backbone-min.js")",
 	  "@routes.Assets.at("javascripts/models/post.js")",
 	  "@routes.Assets.at("javascripts/views/post-list.js")",
 	  "@routes.Assets.at("javascripts/routes.js")"
@@ -22,31 +25,39 @@
 	</script>
   </head>
   <body>
-	<div class="topbar">
-      <div class="fill">
+	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
         <div class="container">
+		  <a class="btn btn-navbar" data-toggle="collapse" 
+			 data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
           <a class="brand" href="/">Web Aggregator</a>
-          <ul class="nav">
-            <li class="posts"><a href="/">Home</a></li>
-            <li class="about"><a href="about">About This Site</a></li>
-          </ul>
-          <form action="" id="search" class="pull-right">
-            <input class="input-large" type="text" placeholder="Search"/>
-            <button class="btn" type="submit">Go</button>
-          </form>
+		  <div class="nav-collapse">
+			<ul class="nav">
+              <li class="posts"><a href="/">Home</a></li>
+              <li class="about"><a href="about">About This Site</a></li>
+			</ul>
+			<form action="search" id="search" 
+				  class="navbar-search pull-right">
+              <input class="input-large search-query" type="text" 
+					 placeholder="Search"/>
+              <button class="btn" type="submit">Go</button>
+			</form>
+		  </div>
         </div>
       </div>
     </div>
     <div class="posts container" data-role="page">
-	  <header class="masthead" data-role="header">
-		<div class="container">
-		  <h1>George Adams IV <small>Public Feed</small></h1>
-		  <p>An aggregation of my public activity on the Internet.</p>
-		</div>
+	  <header class="page-header" data-role="header">
+		<h1>George Adams IV <small>Public Feed</small></h1>
+		<p>An aggregation of my public activity on the Internet.</p>
 	  </header>
       <section class="content" data-role="content">
         <div id="feed" class="row">
-          <div class="span10">
+          <div class="span8">
 			<div class="post-list">
 			  <p class="loading">Loading Content.</p>
 			</div>
@@ -54,7 +65,7 @@
 			  <p><a class="btn" href="/posts/more.json">More</a></p>
 			</div>
 		  </div>
-          <div class="span5 offset1 meta">
+          <div class="span4 meta">
 			<div class="about">
               <h4>About Me</h4>
 			  <p>I am a Software Engineer at Oracle. My current work is designing and implementing prototype user interfaces. My tools of choice right now are <a href="http://www.balsamiq.com/products/mockups">Balsamiq Mockups</a> (wireframing) and a host of JavaScript and CSS libraries including <a href="http://jquery.com">jQuery</a> (<a href="http://jqueryui.com/">UI</a> and <a href="http://jquerymobile.com">Mobile</a>), <a href="http://documentcloud.github.com/underscore/">Underscore</a>, <a href="http://documentcloud.github.com/backbone/">Backbone</a>, and <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, to name a few.</p>
@@ -78,15 +89,13 @@
 	  </footer>
     </div> <!-- /posts container -->
 	<div class="about container" data-role="page">
-	  <header class="masthead" data-role="header">
-		<div class="container">
-		  <h1>About This Site</h1>
-		  <p>What this site is and why I built it.</p>
-		</div>
+	  <header class="page-header" data-role="header">
+		<h1>About This Site</h1>
+		<p>What this site is and why I built it.</p>
 	  </header>
       <section class="content" data-role="content">
         <div class="row">
-          <div class="span10">
+          <div class="span8">
 			<div>
 			  <h3>What Is This Site?</h3>
 			  <p>
@@ -148,9 +157,9 @@
 			  </p>
 			</div>
 		  </div>
-		  <div class="span5 offset1 meta">
+		  <div class="span4 meta">
 			<h4>Site Meta</h4>
-			<table class="zebra-striped">
+			<table class="table-striped">
 			  <tbody>
 				<tr>
 				  <td>
