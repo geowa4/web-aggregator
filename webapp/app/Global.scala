@@ -9,12 +9,14 @@ class Global extends GlobalSettings {
 	PostMongo.connectToMongo
 	GooglePlusSync.start
 	GitHubSync.start
+	StackOverflowSync.start
 	Logger.info("Application has started.");
   }  
   
   override def onStop(app: Application) {
 	GooglePlusSync.stop
 	GitHubSync.stop
+	StackOverflowSync.stop
 	PostMongo.disconnectFromMongo
 	Logger.info("Application has shutdown.");
   }  
