@@ -58,14 +58,19 @@ $(function() {
 			},
 			success: function(mp) {
 				if(morePosts.size() === 0) {
-					var noMore = $(document.createElement('p'));
-					noMore.text('There are no more posts to load.')
-						.prepend($(document.createElement('strong'))
-								 .text('Sorry!'));
+					var noMore = $(document.createElement('span'));
+					noMore.append($(document.createElement('strong'))
+							.text('Sorry!'))
+						.append($(document.createElement('span'))
+							.text('There are no more posts to load.'));
 					button.closest('p').replaceWith(noMore);
 					noMore.closest('div.more-posts')
 						.removeClass('more-posts')
-						.addClass('alert-message info');
+						.addClass('alert alert-info')
+						.prepend($(document.createElement('a'))
+							.addClass('close')
+							.attr('data-dismiss', 'alert')
+							.html('&times;'));
 				} else {
 					posts.add(morePosts.models);
 				}
