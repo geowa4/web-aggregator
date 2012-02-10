@@ -10,6 +10,7 @@ class Global extends GlobalSettings {
 	GooglePlusSync.start
 	GitHubSync.start
 	StackOverflowSync.start
+	BloggerSync.start
 	Logger.info("Application has started.");
   }  
   
@@ -17,6 +18,7 @@ class Global extends GlobalSettings {
 	GooglePlusSync.stop
 	GitHubSync.stop
 	StackOverflowSync.stop
+	BloggerSync.stop
 	PostMongo.disconnectFromMongo
 	Logger.info("Application has shutdown.");
   }  
