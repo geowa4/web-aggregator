@@ -14,19 +14,19 @@ object Application extends Controller {
   }
 
   def atom = Action { 
-	Ok(views.xml.posts(Post.list))
+    Ok(views.xml.posts(Post.list))
   }
 
   def show(id: String) = Action { 
-	Ok(toJson(Post.byId(id)))
+    Ok(toJson(Post.byId(id)))
   }
 
   def list = Action { 
-	Ok(toJson(Post.list))
+    Ok(toJson(Post.list))
   }
 
   def more(skip: Int) = Action {
-	Ok(toJson(Post.more(skip)))
+    Ok(toJson(Post.more(skip)))
   }
 
 }

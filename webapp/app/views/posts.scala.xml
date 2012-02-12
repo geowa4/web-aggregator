@@ -1,22 +1,26 @@
 @(posts: Seq[Post])<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-	<title>Aggregation of George Adams IV</title>
-	<subtitle>Public Posts</subtitle>
-	<link href="http://localhost:9000/posts.xml" rel="self"/>
-	<link href="http://localhost:9000"/>
-	<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
-	<updated>2003-12-13T18:30:02Z</updated>
+	<title type="text">Aggregation of George Adams IV</title>
+	<subtitle>Most Recent 20 Public Posts</subtitle>
+	<link rel="self" href="http://gada.ms/posts.xml" type="application/atom+xml" />
+    <link rel="alternate" href="http://gada.ms" type="text/html" />
+	<id>http://gada.ms/</id>
+	<updated>@posts.head.updated</updated>
 	<author>
 		<name>George Adams IV</name>
 		<email>g.w.adams.iv@@gmail.com</email>
 	</author>
 	@posts.map { post =>
 	<entry>
-		<title>@post.title</title>
-		<link href="@post.url" />
 		<id>@post.url</id>
+		<title type="text">@post.title</title>
+		<link rel="alternate" href="@post.url"/>
+		<author>
+			<name>George Adams IV</name>
+			<uri>http://gada.ms/</uri>
+		</author>
 		<updated>@post.updated</updated>
-		<summary>@post.content</summary>
+		<summary type="html">@post.content</summary>
 	</entry>
 	}
 </feed>
