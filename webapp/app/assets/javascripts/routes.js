@@ -45,7 +45,7 @@ $(function() {
 		app.navigate($(this).attr('href'), true);
 		return false;
 	}
-	$('ul.nav a').on('click', 'a', navigate);
+	$('ul.nav').on('click', 'a', navigate);
 	$('a.brand').on('click', navigate);
 	
 	$('.more-posts .btn').on('click', function(evt) {
