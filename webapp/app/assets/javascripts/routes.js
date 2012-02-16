@@ -1,5 +1,11 @@
 $(function() {
 	var posts = new Posts;
+	posts.bind('change', function() {
+		$('#feed').postList('refresh');
+	});
+	posts.bind('add', function() {
+		$('#feed').postList('refresh');
+	});
 
 	var ApplicationRouter = Backbone.Router.extend({
 		routes: {
@@ -16,17 +22,10 @@ $(function() {
 		posts: function() {
 			this._preRoute();
 			$('ul.nav li.posts').addClass('active');
-			$('.posts[data-role=page]').fadeIn();
-			posts.bind('change', function() {
-				$('#feed').postList('refresh');
-			});
-			posts.bind('add', function() {
-				$('#feed').postList('refresh');
-			});
 			posts.fetch({
 				success: function() {
-					$('#feed').postList({posts: posts})
-						.find('p.loading').remove();
+					$('#feed').postList({posts: posts}).find('p.loading').remove();
+					$('.posts[data-role=page]').fadeIn();
 				}
 			});
 		},
