@@ -1,236 +1,236 @@
 @()<!DOCTYPE html>
 <html>
   <head>
-	<meta charset="utf-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1"/> 
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/> 
     <title>George Adams IV - Web Aggregator</title>
-	<link href="posts.xml" type="application/atom+xml" rel="alternate" title="Posts ATOM Feed" />
-	<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-	<link rel="stilesheet" href="@routes.Assets.at("lib/jquery/css/cupertino/jquery-ui-1.8.17.custom.css")">
-	<link rel="stylesheet" href="@routes.Assets.at("lib/bootstrap/css/bootstrap.min.css")">
-	<link rel="stylesheet" href="@routes.Assets.at("lib/bootstrap/css/bootstrap-responsive.min.css")">
-	<link href="@routes.Assets.at("stylesheets/style.css")" type="text/css" rel="stylesheet" media="screen"/>
-	<script src="@routes.Assets.at("lib/head.min.js")"></script>
-	<script>
-	  head.js(
-	  "@routes.Assets.at("lib/jquery/js/jquery-1.7.1.min.js")",
-	  "@routes.Assets.at("lib/jquery/js/jquery-ui-1.8.17.custom.min.js")",
-	  "@routes.Assets.at("lib/bootstrap/js/bootstrap.min.js")",
-	  "@routes.Assets.at("lib/underscore-min.js")",
-	  "@routes.Assets.at("lib/backbone-min.js")",
-	  "@routes.Assets.at("javascripts/models/post.js")",
-	  "@routes.Assets.at("javascripts/views/post-list.js")",
-	  "@routes.Assets.at("javascripts/routes.js")"
-	  );
-	</script>
+    <link href="posts.xml" type="application/atom+xml" rel="alternate" title="Posts ATOM Feed" />
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    <link type="text/css" rel="stilesheet" href="@routes.Assets.at("lib/jquery/css/cupertino/jquery-ui-1.8.17.custom.css")">
+    <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+    <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap-responsive.min.css")">
+    <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/style.min.css")"/>
+    <script src="@routes.Assets.at("lib/head.min.js")"></script>
+    <script>
+      head.js(
+      "@routes.Assets.at("lib/jquery/js/jquery-1.7.1.min.js")",
+      "@routes.Assets.at("lib/jquery/js/jquery-ui-1.8.17.custom.min.js")",
+      "@routes.Assets.at("lib/bootstrap/js/bootstrap.min.js")",
+      "@routes.Assets.at("lib/underscore-min.js")",
+      "@routes.Assets.at("lib/backbone-min.js")",
+      "@routes.Assets.at("javascripts/models/post.min.js")",
+      "@routes.Assets.at("javascripts/views/post-list.min.js")",
+      "@routes.Assets.at("javascripts/routes.min.js")"
+      );
+    </script>
   </head>
   <body>
-	<div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-		  <a class="btn btn-navbar" data-toggle="collapse" 
-			 data-target=".nav-collapse">
+          <a class="btn btn-navbar" data-toggle="collapse" 
+             data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="/">Web Aggregator</a>
-		  <div class="nav-collapse">
-			<ul class="nav">
+          <div class="nav-collapse">
+            <ul class="nav">
               <li class="posts"><a href="/">Home</a></li>
               <li class="about"><a href="about">About This Site</a></li>
-			</ul>
-			<form action="search" id="search" 
-				  class="navbar-search pull-right">
+            </ul>
+            <form action="search" id="search" 
+                  class="navbar-search pull-right">
               <input class="input-large search-query" type="text" 
-					 placeholder="Search"/>
+                     placeholder="Search"/>
               <button class="btn" type="submit">Go</button>
-			</form>
-		  </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
     <div class="posts container" data-role="page">
-	  <header class="page-header" data-role="header">
-		<h1>George Adams IV 
-			<small>Public Feed 
-				<a href="posts.xml" title="ATOM Feed">
-					<img width="12px" height="12px" 
-						src="@routes.Assets.at("images/glyphicons_327_rss.png")"/>
-				</a>
-			</small>
-		</h1>
-		<p>An aggregation of my public activity on the Internet.</p>
-	  </header>
+      <header class="page-header" data-role="header">
+        <h1>George Adams IV 
+            <small>Public Feed 
+                <a href="posts.xml" title="ATOM Feed">
+                    <img width="12px" height="12px" 
+                        src="@routes.Assets.at("images/glyphicons_327_rss.png")"/>
+                </a>
+            </small>
+        </h1>
+        <p>An aggregation of my public activity on the Internet.</p>
+      </header>
       <section class="content" data-role="content">
         <div id="feed" class="row">
           <div class="span9">
-			<div class="post-list">
-			  <p class="loading">Loading Content.</p>
-			</div>
-			<div class="more-posts">
-			  <p><a class="btn" href="/posts/more.json">More</a></p>
-			</div>
-		  </div>
+            <div class="post-list">
+              <p class="loading">Loading Content.</p>
+            </div>
+            <div class="more-posts">
+              <p><a class="btn" href="/posts/more.json">More</a></p>
+            </div>
+          </div>
           <div class="span3 meta">
-			<div class="about">
+            <div class="about">
               <h4>About Me</h4>
-			  <p>I am a Software Engineer at Oracle. My current work is designing and implementing prototype user interfaces. My tools of choice right now are <a href="http://www.balsamiq.com/products/mockups">Balsamiq Mockups</a> (wireframing) and a host of JavaScript and CSS libraries including <a href="http://jquery.com">jQuery</a> (<a href="http://jqueryui.com/">UI</a> and <a href="http://jquerymobile.com">Mobile</a>), <a href="http://documentcloud.github.com/underscore/">Underscore</a>, <a href="http://documentcloud.github.com/backbone/">Backbone</a>, and <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, to name a few.</p>
-			</div>
-			<div>
-			  <h4>Other Sites</h4>
-			  <ul class="unstyled">
-				<li><a href="https://www.facebook.com/geowa4">Facebook</a></li>
-				<li><a href="https://github.com/geowa4/">GitHub</a></li>
-				<li><a href="https://plus.google.com/107365737413130005765">Google+</a></li>
-				<li><a href="https://www.linkedin.com/in/geowa4">LinkedIn</a></li>
-				<li><a href="http://stackoverflow.com/users/50214/geowa4">StackOverflow</a></li>
-				<li><a href="https://twitter.com/geowa4">Twitter</a></li>
-			  </ul>
-			</div>
+              <p>I am a Software Engineer at Oracle. My current work is designing and implementing prototype user interfaces. My tools of choice right now are <a href="http://www.balsamiq.com/products/mockups">Balsamiq Mockups</a> (wireframing) and a host of JavaScript and CSS libraries including <a href="http://jquery.com">jQuery</a> (<a href="http://jqueryui.com/">UI</a> and <a href="http://jquerymobile.com">Mobile</a>), <a href="http://documentcloud.github.com/underscore/">Underscore</a>, <a href="http://documentcloud.github.com/backbone/">Backbone</a>, and <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, to name a few.</p>
+            </div>
+            <div>
+              <h4>Other Sites</h4>
+              <ul class="unstyled">
+                <li><a href="https://www.facebook.com/geowa4">Facebook</a></li>
+                <li><a href="https://github.com/geowa4/">GitHub</a></li>
+                <li><a href="https://plus.google.com/107365737413130005765">Google+</a></li>
+                <li><a href="https://www.linkedin.com/in/geowa4">LinkedIn</a></li>
+                <li><a href="http://stackoverflow.com/users/50214/geowa4">StackOverflow</a></li>
+                <li><a href="https://twitter.com/geowa4">Twitter</a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
-	  <footer>
-		<p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> Creative Commons Attribution 3.0 Unported License</a>.</p>
-	  </footer>
+      <footer>
+        <p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> Creative Commons Attribution 3.0 Unported License</a>.</p>
+      </footer>
     </div> <!-- /posts container -->
-	<div class="about container" data-role="page">
-	  <header class="page-header" data-role="header">
-		<h1>About This Site</h1>
-		<p>What this site is and why I built it.</p>
-	  </header>
+    <div class="about container" data-role="page">
+      <header class="page-header" data-role="header">
+        <h1>About This Site</h1>
+        <p>What this site is and why I built it.</p>
+      </header>
       <section class="content" data-role="content">
         <div class="row">
           <div class="span9">
-			<div>
-			  <h3>What Is This Site?</h3>
-			  <p>
-				First thing's first: this site is a work in progress. If you 
-				find bugs or have suggestions for things I should be doing better, 
-				please report them to me on my GitHub for this site. The link is 
-				on the right.
-			  </p>
-			  <p>
-				Simply put, this site is an aggregation of my public activity
-				on the internet. If you wanted to stalk me, it was really 
-				difficult. My activity was scattered. Now it can be contained
-				in one place under my control. Some things are aggregated, and 
-				some aren't. For instance, I don't really feel like including
-				Twitter and Facebook, because I already have Google+. Maybe 
-				more services will be added in the future, but I make no 
-				guarantees.
-			  </p>
-			</div>
-			<div>
-			  <h3>Why Build This Site?</h3>
-			  <p>
-				There are a lot of answers to this one. It all started 
-				because I wanted to expand my knowledge of Scala and use
-				the libraries listed in the "Site Meta".
-			  </p>
-			  <p>
-				Then I had the idea to build this site. I always hated that 
-				I had no central place to find something that I had said or 
-				done. Now that everything is pretty much aggregated, I can 
-				start learning another technology to search for content.
-				Without the ability to search, I really only have a long 
-				list, which is only mildly useful.
-			  </p>
-			  <p>
-				Résumés suck. Whether or not I'm looking for a job doesn't 
-				matter. I alway tell job candidates that having	a public 
-				display of what they can do says a lot more about them 
-				than one page of marketing jibber jabber. It was time that 
-				I made something that shows off my skills. Hell, maybe 
-				someone else will fork thes for their own personal use.
-			  </p>
-			</div>
-			<div>
-			  <h3>What's Next?</h3>
-			  <p>
-			  	Search. I'm thinking of jut using regular expressions for 
-			  	a very basic search. I could use Apache Solr or Elastic Search.
-			  	We'll just have to wait and see.
-			  </p>
-			  <p>
-				Other thae that, I just need to clean things up - nothihg 
-				too major. 
-			  </p>
-			</div>
-		  </div>
-		  <div class="span3 meta">
-			<h4>Site Meta</h4>
-			<table class="table table-striped table-condensed">
-			  <tbody>
-				<tr>
-				  <td>
-					<a href="https://github.com/geowa4/web-aggregator">
-					  This Site's Source
-					</a>
-				  </td>
-				</tr>
-				<tr>
-				  <td>
-					<a href="https://github.com/playframework/Play20">
-					  Play! 2.0
-					</a>
-				  </td>
-				</tr>
-				<tr>
-				  <td>
-					<a href="https://github.com/foursquare/rogue">
-					   Rogue
-					</a>
-				  </td>
-				</tr>
+            <div>
+              <h3>What Is This Site?</h3>
+              <p>
+                First thing's first: this site is a work in progress. If you 
+                find bugs or have suggestions for things I should be doing better, 
+                please report them to me on my GitHub for this site. The link is 
+                on the right.
+              </p>
+              <p>
+                Simply put, this site is an aggregation of my public activity
+                on the internet. If you wanted to stalk me, it was really 
+                difficult. My activity was scattered. Now it can be contained
+                in one place under my control. Some things are aggregated, and 
+                some aren't. For instance, I don't really feel like including
+                Twitter and Facebook, because I already have Google+. Maybe 
+                more services will be added in the future, but I make no 
+                guarantees.
+              </p>
+            </div>
+            <div>
+              <h3>Why Build This Site?</h3>
+              <p>
+                There are a lot of answers to this one. It all started 
+                because I wanted to expand my knowledge of Scala and use
+                the libraries listed in the "Site Meta".
+              </p>
+              <p>
+                Then I had the idea to build this site. I always hated that 
+                I had no central place to find something that I had said or 
+                done. Now that everything is pretty much aggregated, I can 
+                start learning another technology to search for content.
+                Without the ability to search, I really only have a long 
+                list, which is only mildly useful.
+              </p>
+              <p>
+                Résumés suck. Whether or not I'm looking for a job doesn't 
+                matter. I alway tell job candidates that having a public 
+                display of what they can do says a lot more about them 
+                than one page of marketing jibber jabber. It was time that 
+                I made something that shows off my skills. Hell, maybe 
+                someone else will fork thes for their own personal use.
+              </p>
+            </div>
+            <div>
+              <h3>What's Next?</h3>
+              <p>
+                Search. I'm thinking of jut using regular expressions for 
+                a very basic search. I could use Apache Solr or Elastic Search.
+                We'll just have to wait and see.
+              </p>
+              <p>
+                Other thae that, I just need to clean things up - nothihg 
+                too major. 
+              </p>
+            </div>
+          </div>
+          <div class="span3 meta">
+            <h4>Site Meta</h4>
+            <table class="table table-striped table-condensed">
+              <tbody>
+                <tr>
+                  <td>
+                    <a href="https://github.com/geowa4/web-aggregator">
+                      This Site's Source
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="https://github.com/playframework/Play20">
+                      Play! 2.0
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="https://github.com/foursquare/rogue">
+                       Rogue
+                    </a>
+                  </td>
+                </tr>
 
-				<tr>
-				  <td>
-					<a href="http://www.mongodb.org/">
-					   MongoDB
-					</a>
-				  </td>
-				</tr>
-				<tr>
-				  <td>
-					<a href="http://jquery.com">
-					  jQuery
-					</a>
-				  </td>
-				</tr>
-				<tr>
-				  <td>
-					<a href="http://jqueryui.com">
-					  jQuery UI
-					</a>
-				  </td>
-				</tr>
-				<tr>
-				  <td>
-					<a href="http://documentcloud.github.com/underscore/">
-					  Underscore
-					</a>
-				  </td>
-				</tr>
-				<tr>
-				  <td>
-					<a href="http://documentcloud.github.com/backbone/">
-					  Backbone
-					</a>
-				  </td>
-				</tr>
-				<tr>
-				  <td>
-					<a href="http://twitter.github.com/bootstrap/">
-					  Bootstrap
-					</a>
-				  </td>
-				</tr>
-			  </tbody>
-			</table>
-		  </div>
-		</div>
-	  </section>
+                <tr>
+                  <td>
+                    <a href="http://www.mongodb.org/">
+                       MongoDB
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="http://jquery.com">
+                      jQuery
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="http://jqueryui.com">
+                      jQuery UI
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="http://documentcloud.github.com/underscore/">
+                      Underscore
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="http://documentcloud.github.com/backbone/">
+                      Backbone
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="http://twitter.github.com/bootstrap/">
+                      Bootstrap
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
   </body>
 </html>
