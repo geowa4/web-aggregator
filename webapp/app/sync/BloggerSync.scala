@@ -49,7 +49,6 @@ object BloggerSync {
 		} catch { 
 			case e => 
 				println("Error syncing Blogger")
-				println(e)
 		}
 	}
 }

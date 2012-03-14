@@ -50,7 +50,6 @@ object StackOverflowSync {
 		} catch { 
 			case e => 
 				println("Error syncing StackOverflow")
-				println(e)
 		}
 	}
 }
