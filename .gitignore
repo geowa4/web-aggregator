@@ -8,3 +8,9 @@ webapp/project/target
 webapp/target
 webapp/tmp
 
+web-aggregator.sublime-project
+web-aggregator.sublime-workspace
+webapp/.classpath
+webapp/.project
+webapp/.settings
+webapp/.cache
