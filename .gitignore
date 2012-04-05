@@ -1,7 +1,6 @@
 *#*
 *~*
 
-play-2.0-beta
 webapp/logs
 webapp/project/project
 webapp/project/target
@@ -10,6 +9,8 @@ webapp/tmp
 
 web-aggregator.sublime-project
 web-aggregator.sublime-workspace
+*.iml
+.idea
 webapp/.classpath
 webapp/.project
 webapp/.settings
