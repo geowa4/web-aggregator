@@ -1,4 +1,4 @@
-(function ($) {
+;(function ($) {
     function buildPostDom(post) {
         var article = $(document.createElement('article'));
         var header = $(document.createElement('header'));
@@ -19,10 +19,6 @@
         return article;
     }
 
-    /**
-     This widget relies on Underscore and
-     a Backbone Collection (options.posts)
-     */
     $.widget('ui.postList', {
         options:{
             posts:null
@@ -75,4 +71,4 @@
             }
         }
     });
-})(jQuery);
+}(jQuery));

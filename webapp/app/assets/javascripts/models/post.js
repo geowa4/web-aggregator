@@ -1,4 +1,4 @@
-$(function () {
+;$(function () {
     var urlRoot = '/posts';
     var dataType = 'json';
 

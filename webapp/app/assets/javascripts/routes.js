@@ -1,4 +1,4 @@
-$(function () {
+;$(function () {
     var posts = new Posts;
     posts.bind('change', function () {
         $('#feed').postList('refresh');
