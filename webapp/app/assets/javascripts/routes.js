@@ -21,26 +21,31 @@ $(function () {
         },
 
         posts:function () {
+            var router = this;
             this._preRoute();
-            $('ul.nav li.posts').addClass('active');
-            posts.fetch({
-                success:function () {
-                    if (this.postList == null) {
-                        this.postList = new PostList({
-                            el:$('#feed .post-list'),
-                            collection:posts
-                        });
+            $('[data-role=page]').promise().then(function() {
+                $('ul.nav li.posts').addClass('active');
+                posts.fetch({
+                    success:function () {
+                        if (router.postList == null) {
+                            router.postList = new PostList({
+                                el:$('#feed .post-list'),
+                                collection:posts
+                            });
+                        }
+                        router.postList.render();
+                        $('.posts[data-role=page]').fadeIn();
                     }
-                    this.postList.render();
-                    $('.posts[data-role=page]').fadeIn();
-                }
+                });
             });
         },
 
         about:function () {
             this._preRoute();
-            $('ul.nav li.about').addClass('active');
-            $('.about[data-role=page]').fadeIn();
+            $('[data-role=page]').promise().then(function() {
+                $('ul.nav li.about').addClass('active');
+                $('.about[data-role=page]').fadeIn();
+            });
         }
     });
 
