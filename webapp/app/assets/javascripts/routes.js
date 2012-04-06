@@ -1,12 +1,6 @@
 ;
 $(function () {
     var posts = new Posts;
-    posts.bind('change', function () {
-        $('#feed').postList('refresh');
-    });
-    posts.bind('add', function () {
-        $('#feed').postList('refresh');
-    });
 
     var ApplicationRouter = Backbone.Router.extend({
         routes:{

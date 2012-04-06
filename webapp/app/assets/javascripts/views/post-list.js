@@ -25,6 +25,7 @@
             this.$el.empty();
             this.headPost = null;
             this.items = {};
+            this.collection.on('all', _.bind(this.render, this));
         },
 
         render:function () {
