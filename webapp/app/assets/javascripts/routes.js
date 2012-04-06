@@ -1,4 +1,5 @@
-;$(function () {
+;
+$(function () {
     var posts = new Posts;
     posts.bind('change', function () {
         $('#feed').postList('refresh');
@@ -24,7 +25,13 @@
             $('ul.nav li.posts').addClass('active');
             posts.fetch({
                 success:function () {
-                    $('#feed').postList({posts:posts}).find('p.loading').remove();
+                    if (this.postList == null) {
+                        this.postList = new PostList({
+                            el:$('#feed .post-list'),
+                            collection:posts
+                        });
+                    }
+                    this.postList.render();
                     $('.posts[data-role=page]').fadeIn();
                 }
             });

@@ -1,4 +1,5 @@
-;(function ($) {
+;
+(function () {
     function buildPostDom(post) {
         var article = $(document.createElement('article'));
         var header = $(document.createElement('header'));
@@ -19,56 +20,37 @@
         return article;
     }
 
-    $.widget('ui.postList', {
-        options:{
-            posts:null
-        },
-
-        _setOption:function (key, value) {
-            switch (key) {
-                case "posts":
-                    this.refresh();
-                    break;
-            }
-
-            $.Widget.prototype._setOption.apply(this, arguments);
-            //jQuery UI 1.9: this._super( "_setOption", key, value );
-        },
-
-        _create:function () {
-            this.postList = this.element.find('.post-list');
+    window.PostList = Backbone.View.extend({
+        initialize:function () {
+            this.$el.empty();
             this.headPost = null;
-            this.tailPost = null;
-            this.refresh();
+            this.items = {};
         },
 
-        refresh:function () {
-            this.items = this.items || {};
-            var self = this;
-            if (this.options.posts !== null) {
-                var currentHead = this.options.posts.first();
-                var lastPostItem = null;
-                this.options.posts.each(function (post) {
-                    var postItem = self.items[post.id];
-                    if (postItem === undefined) {
-                        postItem = buildPostDom(post);
-                        if (self.headPost === null ||
-                            currentHead === self.headPost) {
-                            self.postList.append(postItem);
+        render:function () {
+            var view = this;
+            var currentHead = this.collection.first();
+            var lastPostItem = null;
+            this.collection.each(function (post) {
+                var postItem = view.items[post.id];
+                if (postItem === undefined) {
+                    postItem = buildPostDom(post);
+                    if (view.headPost === null ||
+                        currentHead === view.headPost) {
+                        view.$el.append(postItem);
+                    } else {
+                        if (lastPostItem === null) {
+                            lastPostItem = postItem;
+                            view.$el.prepend(postItem);
                         } else {
-                            if (lastPostItem === null) {
-                                lastPostItem = postItem;
-                                self.postList.prepend(postItem);
-                            } else {
-                                lastPostItem.after(postItem);
-                            }
+                            lastPostItem.after(postItem);
                         }
-                        self.items[post.id] = postItem;
                     }
-                });
-                this.headPost = this.options.posts.first();
-                this.tailPost = this.options.posts.last();
-            }
+                    view.items[post.id] = postItem;
+                }
+            });
+            this.headPost = this.collection.first();
+            return this;
         }
     });
-}(jQuery));
+}());
