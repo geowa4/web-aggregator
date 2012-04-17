@@ -22,7 +22,7 @@ PostList = Backbone.View.extend
     @$el.empty();
     @headPost = null;
     @items = {};
-    @collection.on('all', _.bind(@render, this))
+    @collection.on 'all', _.bind(@render, this)
 
   render: () ->
     currentHead = @collection.first()

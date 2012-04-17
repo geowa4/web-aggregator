@@ -1,27 +1,25 @@
-$(() ->
-  urlRoot = '/posts'
-  dataType = 'json'
+urlRoot = '/posts'
+dataType = 'json'
 
-  Post = Backbone.Model.extend
-    defaults:
-      url: ""
-      title: ""
-      content: ""
-      published: new Date
-      updated: new Date
-      provider: ""
+Post = Backbone.Model.extend
+  defaults:
+    url: ""
+    title: ""
+    content: ""
+    published: new Date
+    updated: new Date
+    provider: ""
 
-    initialize: () ->
-      this.set
-        published: new Date(this.get('published'))
-        updated: new Date(this.get('updated'))
+  initialize: () ->
+    this.set
+      published: new Date(this.get('published'))
+      updated: new Date(this.get('updated'))
 
-    url: () -> urlRoot + '/' + this.id + '.' + dataType
+  url: () -> urlRoot + '/' + this.id + '.' + dataType
 
-  Posts = Backbone.Collection.extend
-    model: Post
+Posts = Backbone.Collection.extend
+  model: Post
 
-    url: urlRoot + '.' + dataType
+  url: urlRoot + '.' + dataType
 
-  window.Posts = Posts
-)
+window.Posts = Posts
