@@ -3,9 +3,9 @@ $ ->
 
   ApplicationRouter = Backbone.Router.extend
     routes:
-      '':'posts'
-      '/':'posts'
-      'about':'about'
+      '': 'posts'
+      '/': 'posts'
+      'about': 'about'
 
     _preRoute: ->
       $('[data-role=page]').fadeOut()
@@ -19,8 +19,8 @@ $ ->
           success: =>
             if !@postList?
               @postList = new PostList
-                el:$('#feed .post-list')
-                collection:posts
+                el: $('#feed .post-list')
+                collection: posts
             @postList.render()
             $('.posts[data-role=page]').fadeIn()
 
@@ -31,7 +31,7 @@ $ ->
         $('.about[data-role=page]').fadeIn()
 
   app = new ApplicationRouter()
-  Backbone.history.start pushState:true
+  Backbone.history.start pushState: true
 
   navigate = ->
     app.navigate $(this).attr('href'), true
@@ -44,23 +44,22 @@ $ ->
     button = $(this)
     morePosts = new Posts()
     morePosts.fetch
-      data:
-        skip:posts.size()
+      data: skip: posts.size()
       success: (mp) ->
         if morePosts.size() is 0
           noMore = $(document.createElement('span'))
           noMore.append($(document.createElement('strong'))
-            .text('Sorry!'))
-            .append($(document.createElement('span'))
-            .text('There are no more posts to load.'))
+          .text('Sorry!'))
+          .append($(document.createElement('span'))
+          .text('There are no more posts to load.'))
           button.closest('p').replaceWith(noMore)
           noMore.closest('div.more-posts')
-            .removeClass('more-posts')
-            .addClass('alert alert-info')
-            .prepend($(document.createElement('a'))
-              .addClass('close')
-              .attr('data-dismiss', 'alert')
-              .html('&times;'))
+          .removeClass('more-posts')
+          .addClass('alert alert-info')
+          .prepend($(document.createElement('a'))
+          .addClass('close')
+          .attr('data-dismiss', 'alert')
+          .html('&times;'))
         else
           posts.add morePosts.models
     evt.preventDefault()
