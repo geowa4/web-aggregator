@@ -2,14 +2,13 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET	   /posts.xml				controllers.Application.atom()
-GET	   /posts.json				controllers.Application.list()
-GET	   /posts/more.json			controllers.Application.more(skip: Int ?= 0)
-GET	   /posts/:id.json			controllers.Application.show(id: String)
+GET    /posts.xml               controllers.Application.atom()
+GET    /posts.json              controllers.Application.list(skip: Int ?= 0)
+GET    /posts/:id.json          controllers.Application.show(id: String)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file  	controllers.Assets.at(path="/public", file)
+GET     /assets/*file           controllers.Assets.at(path="/public", file)
 
 # Content
-GET	   /$path<.*>				controllers.Application.index(path)
+GET    /$path<.*>               controllers.Application.index(path)
 

@@ -53,9 +53,7 @@ object Post extends Post with MongoMetaRecord[Post] {
 
   def allQuery = Post where (_.rid exists true) orderDesc (_.published)
 
-  def list = allQuery limit (20) fetch
-
-  def more(skip: Int) = allQuery limit(20) skip (skip) fetch
+  def list(skip: Int = 0) = allQuery limit(20) skip (skip) fetch
 
   def byId(id: String) = Post where (_.rid eqs id) fetch (1)
 

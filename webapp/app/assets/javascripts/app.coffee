@@ -12,7 +12,7 @@ $ ->
       $('ul.nav li').removeClass 'active'
 
     posts: ->
-      this._preRoute()
+      @_preRoute()
       $('[data-role=page]').promise().then =>
         $('ul.nav li.posts').addClass 'active'
         posts.fetch
@@ -43,7 +43,6 @@ $ ->
   $('.more-posts .btn').on 'click', (evt) ->
     button = $(this)
     morePosts = new Posts()
-    morePosts.url = '/posts/more.json'
     morePosts.fetch
       data:
         skip:posts.size()
