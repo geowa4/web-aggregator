@@ -31,10 +31,10 @@ object GitHubSync {
   def sync {
     println("Syncing GitHub")
     try {
-      var parser = abdera.getParser
-      var url = new URL(baseURL + ".atom")
-      var doc: Document[Feed] = parser.parse(url.openStream, url.toString)
-      var feed = doc.getRoot
+      val parser = abdera.getParser
+      val url = new URL(baseURL + ".atom")
+      val doc: Document[Feed] = parser.parse(url.openStream, url.toString)
+      val feed = doc.getRoot
       feed.getEntries foreach {
         entry =>
           var content = Unparsed(entry.getContent).toString

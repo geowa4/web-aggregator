@@ -32,10 +32,10 @@ object StackOverflowSync {
   def sync {
     println("Syncing StackOverflow")
     try {
-      var parser = abdera.getParser
-      var url = new URL(baseUrl)
-      var doc: Document[Feed] = parser.parse(url.openStream, url.toString)
-      var feed = doc.getRoot
+      val parser = abdera.getParser
+      val url = new URL(baseUrl)
+      val doc: Document[Feed] = parser.parse(url.openStream, url.toString)
+      val feed = doc.getRoot
       feed.getEntries foreach {
         entry =>
           Post.where(_.rid eqs entry.getId.toString)
