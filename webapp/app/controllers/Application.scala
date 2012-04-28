@@ -11,11 +11,11 @@ object Application extends Controller {
     Ok(views.html.index())
   }
 
-  def atom = Action { 
+  def atom = Action {
     Ok(views.xml.posts(Post.list()))
   }
 
-  def show(id: String) = Action { 
+  def show(id: String) = Action {
     Ok(toJson(Post.byId(id)))
   }
 
