@@ -6,7 +6,6 @@ import java.net.URL
 import java.util.{Timer, TimerTask}
 import com.foursquare.rogue.Rogue._
 import org.apache.abdera.Abdera
-import org.apache.abdera.parser.Parser
 import org.apache.abdera.model.{Document, Feed}
 
 import models._
