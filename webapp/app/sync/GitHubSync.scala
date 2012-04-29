@@ -7,7 +7,7 @@ import java.util.{Timer, TimerTask}
 import com.foursquare.rogue.Rogue._
 import org.apache.abdera.Abdera
 import org.apache.abdera.model.{Document, Feed}
-
+import play.Logger
 import models._
 import akka.actor.Actor
 
@@ -17,7 +17,7 @@ class GitHubSync extends Actor {
 
   def receive = {
     case Sync =>
-      println("Syncing GitHub")
+      Logger.debug("Syncing GitHub")
       try {
         val parser = abdera.getParser
         val url = new URL(baseURL + ".atom")
@@ -38,7 +38,7 @@ class GitHubSync extends Actor {
               .upsertOne()
         }
       } catch {
-        case _ => println("Error syncing GitHub")
+        case _ => Logger.error("Error syncing GitHub")
       }
   }
 }

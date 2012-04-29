@@ -6,7 +6,7 @@ import java.util.{Timer, TimerTask}
 import com.foursquare.rogue.Rogue._
 import org.apache.abdera.Abdera
 import org.apache.abdera.model.{Document, Feed}
-
+import play.Logger
 import models._
 import akka.actor.Actor
 
@@ -16,7 +16,7 @@ class BloggerSync extends Actor {
 
   def receive = {
     case Sync =>
-      println("Syncing Blogger")
+      Logger.debug("Syncing Blogger")
       try {
         val parser = abdera.getParser
         val url = new URL(baseUrl)
@@ -35,7 +35,7 @@ class BloggerSync extends Actor {
         }
       } catch {
         case e =>
-          println("Error syncing Blogger")
+          Logger.error("Error syncing Blogger")
       }
   }
 }

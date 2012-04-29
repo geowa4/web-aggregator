@@ -1,5 +1,7 @@
 package models
 
+import play.Logger
+import play.api.Play.current
 import play.api.libs.json._
 import com.foursquare.rogue._
 import com.foursquare.rogue.Rogue._
@@ -8,8 +10,6 @@ import net.liftweb.mongodb.{MongoDB, MongoIdentifier}
 import net.liftweb.mongodb.record._
 import net.liftweb.mongodb.record.field._
 import net.liftweb.record.field._
-import net.liftweb.record._
-import org.bson.types.ObjectId
 
 object PostMongo extends MongoIdentifier {
   override def jndiName = "post_mongo"
@@ -17,8 +17,10 @@ object PostMongo extends MongoIdentifier {
   private var mongo: Option[Mongo] = None
 
   def connectToMongo = {
-    val MongoPort = 27017
-    mongo = Some(new Mongo(new ServerAddress("localhost", MongoPort)))
+    val config = play.api.Play.configuration
+    val host = config.getString("mongo.host").getOrElse("localhost")
+    val port = config.getInt("mongo.port").getOrElse(27017)
+    mongo = Some(new Mongo(new ServerAddress(host, port)))
     MongoDB.defineDb(PostMongo, mongo.get, "web-aggregator")
   }
 

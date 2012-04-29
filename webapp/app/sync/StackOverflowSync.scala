@@ -10,6 +10,7 @@ import org.apache.abdera.model.{Document, Feed}
 
 import models._
 import akka.actor.Actor
+import play.Logger
 
 class StackOverflowSync extends Actor {
   private val abdera = new Abdera
@@ -17,7 +18,7 @@ class StackOverflowSync extends Actor {
 
   def receive = {
     case Sync =>
-      println("Syncing StackOverflow")
+      Logger.debug("Syncing StackOverflow")
       try {
         val parser = abdera.getParser
         val url = new URL(baseUrl)
