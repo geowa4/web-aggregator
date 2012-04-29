@@ -9,47 +9,34 @@ import org.apache.abdera.Abdera
 import org.apache.abdera.model.{Document, Feed}
 
 import models._
+import akka.actor.Actor
 
-object StackOverflowSync {
-  val service = new Timer
-  val abdera = new Abdera
-
+class StackOverflowSync extends Actor {
+  private val abdera = new Abdera
   private val baseUrl = "http://stackoverflow.com/feeds/user/50214"
 
-  def start {
-    service.scheduleAtFixedRate(new TimerTask {
-      def run = sync
-    }, 0, 60 * 1000 * 30)
-    println("StackOverflow Sync service started")
-  }
-
-  def stop {
-    service.cancel
-    println("StackOverflow Sync service stopped")
-  }
-
-  def sync {
-    println("Syncing StackOverflow")
-    try {
-      val parser = abdera.getParser
-      val url = new URL(baseUrl)
-      val doc: Document[Feed] = parser.parse(url.openStream, url.toString)
-      val feed = doc.getRoot
-      feed.getEntries foreach {
-        entry =>
-          Post.where(_.rid eqs entry.getId.toString)
-            .modify(_.url setTo entry.getLink("alternate").getHref.toString)
-            .modify(_.title setTo entry.getTitle)
-            .modify(_.content setTo "<p><em>%s</em></p><p>%s</p>"
-            .format(entry.getTitle, Unparsed(entry.getSummary).toString))
-            .modify(_.published setTo entry.getPublished)
-            .modify(_.updated setTo entry.getUpdated)
-            .modify(_.provider setTo "StackOverflow")
-            .upsertOne()
+  def receive = {
+    case Sync =>
+      println("Syncing StackOverflow")
+      try {
+        val parser = abdera.getParser
+        val url = new URL(baseUrl)
+        val doc: Document[Feed] = parser.parse(url.openStream, url.toString)
+        val feed = doc.getRoot
+        feed.getEntries foreach {
+          entry =>
+            Post.where(_.rid eqs entry.getId.toString)
+              .modify(_.url setTo entry.getLink("alternate").getHref.toString)
+              .modify(_.title setTo entry.getTitle)
+              .modify(_.content setTo "<p><em>%s</em></p><p>%s</p>".format(entry.getTitle, Unparsed(entry.getSummary).toString))
+              .modify(_.published setTo entry.getPublished)
+              .modify(_.updated setTo entry.getUpdated)
+              .modify(_.provider setTo "StackOverflow")
+              .upsertOne()
+        }
+      } catch {
+        case e =>
+          println("Error syncing StackOverflow")
       }
-    } catch {
-      case e =>
-        println("Error syncing StackOverflow")
-    }
   }
 }
