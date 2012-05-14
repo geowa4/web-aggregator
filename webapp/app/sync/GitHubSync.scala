@@ -38,7 +38,7 @@ class GitHubSync extends Actor {
               .upsertOne()
         }
       } catch {
-        case _ => Logger.error("Error syncing GitHub")
+        case e => Logger.error("Error syncing GitHub", e)
       }
   }
 }

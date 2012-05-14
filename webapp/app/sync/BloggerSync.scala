@@ -34,8 +34,7 @@ class BloggerSync extends Actor {
               .upsertOne()
         }
       } catch {
-        case e =>
-          Logger.error("Error syncing Blogger")
+        case e => Logger.error("Error syncing Blogger", e)
       }
   }
 }

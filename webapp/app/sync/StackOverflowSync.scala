@@ -36,8 +36,7 @@ class StackOverflowSync extends Actor {
               .upsertOne()
         }
       } catch {
-        case e =>
-          println("Error syncing StackOverflow")
+        case e => Logger.info("Error syncing StackOverflow", e)
       }
   }
 }
