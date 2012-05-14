@@ -16,7 +16,7 @@ class BloggerSync extends Actor {
 
   def receive = {
     case Sync =>
-      Logger.debug("Syncing Blogger")
+      Logger.info("Syncing Blogger")
       try {
         val parser = abdera.getParser
         val url = new URL(baseUrl)

@@ -18,7 +18,7 @@ class StackOverflowSync extends Actor {
 
   def receive = {
     case Sync =>
-      Logger.debug("Syncing StackOverflow")
+      Logger.info("Syncing StackOverflow")
       try {
         val parser = abdera.getParser
         val url = new URL(baseUrl)

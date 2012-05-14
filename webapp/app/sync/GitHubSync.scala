@@ -17,7 +17,7 @@ class GitHubSync extends Actor {
 
   def receive = {
     case Sync =>
-      Logger.debug("Syncing GitHub")
+      Logger.info("Syncing GitHub")
       try {
         val parser = abdera.getParser
         val url = new URL(baseURL + ".atom")
