@@ -44,7 +44,8 @@ $ ->
     button = $(this)
     morePosts = new Posts()
     morePosts.fetch
-      data: skip: posts.size()
+      data: 
+        skip: posts.size()
       success: (mp) ->
         if morePosts.size() is 0
           noMore = $(document.createElement('span'))
