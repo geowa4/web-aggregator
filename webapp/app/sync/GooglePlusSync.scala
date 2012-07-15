@@ -17,7 +17,7 @@ class GooglePlusSync extends Actor {
   val key = play.api.Play.configuration.getString("google-api-key").getOrElse("AIzaSyBaWFITSxalsX9sG9Qb2GmO0AQzDCgNlD4")
   def receive = {
     case Sync =>
-      Logger.info("Syncing Google+ with key " + key)
+      Logger.info("Syncing Google+")
       try {
         val feed: Promise[ws.Response] = WS.url("https://www.googleapis.com/plus/v1/people/107365737413130005765/activities/public?key=" + key).get();
         feed.await(5000).get.json \ "items" match {
