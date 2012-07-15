@@ -19,7 +19,6 @@ Post = Backbone.Model.extend
 
 Posts = Backbone.Collection.extend
   model: Post
-
   url: urlRoot + '.' + dataType
 
 window.Posts = Posts
