@@ -18,7 +18,7 @@ object PostMongo extends MongoIdentifier {
 
   def connectToMongo = {
     val config = play.api.Play.configuration
-    val host = config.getString("mongo.host").getOrElse("localhost")
+    val host = config.getString("mongo.host").getOrElse("127.0.0.1")
     val port = config.getInt("mongo.port").getOrElse(27017)
     mongo = Some(new Mongo(new ServerAddress(host, port)))
     MongoDB.defineDb(PostMongo, mongo.get, "web-aggregator")

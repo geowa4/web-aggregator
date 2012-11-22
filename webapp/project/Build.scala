@@ -17,7 +17,5 @@ object ApplicationBuild extends Build {
     "com.foursquare" %% "rogue" % "1.1.2" intransitive()
   )
 
-  val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
-
-  )
+  val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings()
 }
