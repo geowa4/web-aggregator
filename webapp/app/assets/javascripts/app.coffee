@@ -1,4 +1,10 @@
-$ ->
+$.domReady ->
+  _ = require 'underscore'
+  Backbone = require 'backbone'
+  Q = require 'q'
+  Posts = require 'Posts'
+  PostList = require 'PostList'
+
   posts = new Posts()
 
   ApplicationRouter = Backbone.Router.extend
@@ -8,25 +14,27 @@ $ ->
       'about': 'about'
 
     _preRoute: ->
-      $('[data-role=page]').fadeOut()
+      deferred = Q.defer()
+      $('[data-role=page]').fadeOut(250, deferred.resolve)
       $('ul.nav li').removeClass 'active'
+      deferred.promise
 
     posts: ->
       @_preRoute()
-      $('[data-role=page]').promise().then =>
+      .then ->
         $('ul.nav li.posts').addClass 'active'
-        posts.fetch
-          success: =>
-            if !@postList?
-              @postList = new PostList
-                el: $('#feed .post-list')
-                collection: posts
-            @postList.render()
-            $('.posts[data-role=page]').fadeIn()
+        posts.fetch()
+      .then =>
+        if !@postList?
+            @postList = new PostList
+              el: $('#feed .post-list')
+              collection: posts
+          @postList.render()
+          $('.posts[data-role=page]').fadeIn()
+      .done()
 
     about: ->
-      @_preRoute()
-      $('[data-role=page]').promise().then ->
+      @_preRoute().then ->
         $('ul.nav li.about').addClass 'active'
         $('.about[data-role=page]').fadeIn()
 

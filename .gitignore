@@ -15,3 +15,5 @@ webapp/.classpath
 webapp/.project
 webapp/.settings
 webapp/.cache
+
+node_modules

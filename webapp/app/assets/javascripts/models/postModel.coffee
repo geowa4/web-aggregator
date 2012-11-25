@@ -1,3 +1,5 @@
+Backbone = require 'backbone'
+
 urlRoot = '/posts'
 dataType = 'json'
 
@@ -21,4 +23,4 @@ Posts = Backbone.Collection.extend
   model: Post
   url: urlRoot + '.' + dataType
 
-window.Posts = Posts
+provide 'Posts', Posts

@@ -1,26 +1,24 @@
 @()<!DOCTYPE html>
-<html>
+<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html> <!--<![endif]-->
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/> 
     <title>George Adams IV - Web Aggregator</title>
     <link href="posts.xml" type="application/atom+xml" rel="alternate" title="Posts ATOM Feed" />
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-    <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap.css")">
-    <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/bootstrap-responsive.css")">
-    <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/style.css")"/>
-    <script src="@routes.Assets.at("lib/head.js")"></script>
-    <script>
+    <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/style.min.css")"/>
+    <!-- <script src="@routes.Assets.at("lib/head.js")"></script>
+    <script defer>
       head.js(
-      "@routes.Assets.at("lib/jquery.js")",
-      "@routes.Assets.at("lib/bootstrap/js/bootstrap.js")",
-      "@routes.Assets.at("lib/underscore.js")",
-      "@routes.Assets.at("lib/backbone.js")",
+      "@routes.Assets.at("ender/ender.min.js")",
       "@routes.Assets.at("javascripts/models/postModel.js")",
       "@routes.Assets.at("javascripts/views/postView.js")",
       "@routes.Assets.at("javascripts/app.js")"
       );
-    </script>
+    </script> -->
   </head>
   <body>
     <div class="navbar navbar-fixed-top">
@@ -59,6 +57,11 @@
             </small>
         </h1>
         <p>An aggregation of my public activity on the Internet.</p>
+        <p class="no-support error">
+          This browser is not supported.
+          Please <a href="http://browsehappy.com/">upgrade your browser</a>.
+        </p>
+        <p class="js-required error"
       </header>
       <section class="content" data-role="content">
         <div id="feed" class="row">
@@ -229,5 +232,10 @@
           </div>
         </div>
       </section>
+    </div>
+    <script src="@routes.Assets.at("ender/ender.min.js")"></script>
+    <script src="@routes.Assets.at("javascripts/models/postModel.min.js")"></script>
+    <script src="@routes.Assets.at("javascripts/views/postView.min.js")"></script>
+    <script defer src="@routes.Assets.at("javascripts/app.min.js")"></script>
   </body>
 </html>

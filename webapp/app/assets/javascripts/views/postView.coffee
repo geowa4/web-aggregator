@@ -1,3 +1,6 @@
+_ = require 'underscore'
+Backbone = require 'backbone'
+
 buildPostDom = (post) ->
   article = $(document.createElement('article'))
   header = $(document.createElement('header'))
@@ -45,4 +48,4 @@ PostList = Backbone.View.extend
     @headPost = @collection.first()
     this
 
-window.PostList = PostList
+provide 'PostList', PostList

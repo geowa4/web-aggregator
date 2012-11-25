@@ -1,7 +1,19 @@
+@import "bootstrap.less";
+@import "bootstrap-responsive.less";
+
 @media (min-width: 980px) {
     body {
         padding-top: 40px;
         overflow-y: scroll;
+    }
+}
+
+.no-support {
+    display: none;
+}
+.lt-ie9 {
+    .no-support {
+        display: block;
     }
 }
 
@@ -10,7 +22,7 @@
 }
 
 .container[data-role=page] {
-    display: none;
+    opacity: 0;
 }
 
 header.masthead {
