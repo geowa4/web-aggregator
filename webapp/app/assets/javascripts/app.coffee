@@ -1,10 +1,10 @@
-$.domReady ->
-  _ = require 'underscore'
-  Backbone = require 'backbone'
-  Q = require 'q'
-  Posts = require 'Posts'
-  PostList = require 'PostList'
+_ = require 'underscore'
+Backbone = require 'backbone'
+Q = require 'q'
+Posts = require 'Posts'
+PostList = require 'PostList'
 
+$.domReady ->
   posts = new Posts()
 
   ApplicationRouter = Backbone.Router.extend
@@ -15,7 +15,10 @@ $.domReady ->
 
     _preRoute: ->
       deferred = Q.defer()
-      $('[data-role=page]').fadeOut(250, deferred.resolve)
+      pages = $('[data-role=page]')
+      pages.fadeOut 250, () ->
+        pages.css('display', 'none')
+        deferred.resolve()
       $('ul.nav li').removeClass 'active'
       deferred.promise
 
@@ -26,49 +29,53 @@ $.domReady ->
         posts.fetch()
       .then =>
         if !@postList?
-            @postList = new PostList
-              el: $('#feed .post-list')
-              collection: posts
-          @postList.render()
-          $('.posts[data-role=page]').fadeIn()
+          @postList = new PostList
+            el: $('#feed .post-list')
+            collection: posts
+        @postList.render()
+        $('.posts[data-role=page]')
+        .css
+          opacity: 0
+          display: 'block'
+        .fadeIn()
       .done()
 
     about: ->
       @_preRoute().then ->
         $('ul.nav li.about').addClass 'active'
-        $('.about[data-role=page]').fadeIn()
+        $('.about[data-role=page]')
+        .css
+          opacity: 0
+          display: 'block'
+        .fadeIn()
 
   app = new ApplicationRouter()
   Backbone.history.start pushState: true
 
-  navigate = ->
+  navigate = (evt) ->
+    evt.preventDefault()
     app.navigate $(this).attr('href'), true
-    false
 
   $('ul.nav').on 'click', 'a', navigate
   $('a.brand').on 'click', navigate
 
   $('.more-posts .btn').on 'click', (evt) ->
+    evt.preventDefault()
     button = $(this)
     morePosts = new Posts()
     morePosts.fetch
       data: 
         skip: posts.size()
-      success: (mp) ->
-        if morePosts.size() is 0
-          noMore = $(document.createElement('span'))
-          noMore.append($(document.createElement('strong'))
-            .text('Sorry!'))
-            .append($(document.createElement('span'))
-            .text('There are no more posts to load.'))
-          button.closest('p').replaceWith(noMore)
-          noMore.closest('div.more-posts')
-            .removeClass('more-posts')
-            .addClass('alert alert-info')
-            .prepend($(document.createElement('a'))
-            .addClass('close')
-            .attr('data-dismiss', 'alert')
-            .html('&times;'))
-        else
-          posts.add morePosts.models
-    evt.preventDefault()
+    .then ->
+      if morePosts.size() is 0
+        noMore = $(document.createElement('span'))
+        noMore.append($(document.createElement('strong'))
+          .text('Sorry!'))
+          .append($(document.createElement('span'))
+          .text('There are no more posts to load.'))
+        button.closest('p').replaceWith(noMore)
+        noMore.closest('div.more-posts')
+          .removeClass('more-posts')
+          .addClass('alert alert-info')
+      else
+        posts.add morePosts.models

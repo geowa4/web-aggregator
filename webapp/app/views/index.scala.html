@@ -10,15 +10,6 @@
     <link href="posts.xml" type="application/atom+xml" rel="alternate" title="Posts ATOM Feed" />
     <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
     <link type="text/css" rel="stylesheet" href="@routes.Assets.at("stylesheets/style.min.css")"/>
-    <!-- <script src="@routes.Assets.at("lib/head.js")"></script>
-    <script defer>
-      head.js(
-      "@routes.Assets.at("ender/ender.min.js")",
-      "@routes.Assets.at("javascripts/models/postModel.js")",
-      "@routes.Assets.at("javascripts/views/postView.js")",
-      "@routes.Assets.at("javascripts/app.js")"
-      );
-    </script> -->
   </head>
   <body>
     <div class="navbar navbar-fixed-top">
@@ -51,8 +42,7 @@
         <h1>George Adams IV 
             <small>Public Feed 
                 <a href="posts.xml" title="ATOM Feed">
-                    <img width="12px" height="12px" 
-                        src="@routes.Assets.at("images/glyphicons_327_rss.png")"/>
+                    <img width="12px" height="12px" rc="@routes.Assets.at("images/glyphicons_327_rss.png")"/>
                 </a>
             </small>
         </h1>
@@ -61,7 +51,6 @@
           This browser is not supported.
           Please <a href="http://browsehappy.com/">upgrade your browser</a>.
         </p>
-        <p class="js-required error"
       </header>
       <section class="content" data-role="content">
         <div id="feed" class="row">
@@ -76,7 +65,16 @@
           <div class="span3 meta">
             <div class="about">
               <h4>About Me</h4>
-              <p>I am a Software Engineer at Brand Networks, Inc. My tools of choice right now are <a href="http://www.balsamiq.com/products/mockups">Balsamiq Mockups</a> (wireframing) and a host of JavaScript and CSS libraries including <a href="http://jquery.com">jQuery</a> (<a href="http://jqueryui.com/">UI</a> and <a href="http://jquerymobile.com">Mobile</a>), <a href="http://documentcloud.github.com/underscore/">Underscore</a>, <a href="http://documentcloud.github.com/backbone/">Backbone</a>, and <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, to name a few.</p>
+              <p>I am a Software Engineer at Brand Networks, Inc.
+                My tools of choice right now are 
+                <a href="http://www.balsamiq.com/products/mockups">Balsamiq Mockups</a> (wireframing)
+                and a host of JavaScript and CSS libraries including
+                <a href="http://ender.jit.su/">Ender</a>,
+                <a href="http://d3js.org/">D3</a>,
+                <a href="http://documentup.com/geowa4/pajamas">Pajamas</a>,
+                <a href="http://documentcloud.github.com/underscore/">Underscore</a>, and
+                <a href="http://twitter.github.com/bootstrap/">Bootstrap</a>, to name a few.
+              </p>
             </div>
             <div>
               <h4>Other Sites</h4>
@@ -93,7 +91,12 @@
         </div>
       </section>
       <footer>
-        <p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/"> Creative Commons Attribution 3.0 Unported License</a>.</p>
+        <p>
+          This work is licensed under a
+          <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+            Creative Commons Attribution 3.0 Unported License
+          </a>.
+        </p>
       </footer>
     </div> <!-- /posts container -->
     <div class="about container" data-role="page">
@@ -139,12 +142,7 @@
                 list, which is only mildly useful.
               </p>
               <p>
-                Lastly, résumés suck. Whether or not I'm looking for a job doesn't
-                matter. I always tell job candidates that having a public
-                display of what they can do says a lot more about them 
-                than one page of marketing jibber jabber. It was time that 
-                I made something that shows off my skills. Hell, maybe 
-                someone else will fork this for their own personal use.
+                Lastly, résumés suck. If you want to be noticed, build something.
               </p>
             </div>
             <div>
@@ -194,15 +192,22 @@
                 </tr>
                 <tr>
                   <td>
-                    <a href="http://jquery.com">
-                      jQuery
+                    <a href="http://ender.jit.su/">
+                      Ender
                     </a>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <a href="http://jqueryui.com">
-                      jQuery UI
+                    <a href="http://d3js.org/">
+                      D3
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="http://documentup.com/geowa4/pajamas">
+                      Pajamas
                     </a>
                   </td>
                 </tr>
@@ -236,6 +241,6 @@
     <script src="@routes.Assets.at("ender/ender.min.js")"></script>
     <script src="@routes.Assets.at("javascripts/models/postModel.min.js")"></script>
     <script src="@routes.Assets.at("javascripts/views/postView.min.js")"></script>
-    <script defer src="@routes.Assets.at("javascripts/app.min.js")"></script>
+    <script defer src="@routes.Assets.at("javascripts/app.js")"></script>
   </body>
 </html>
