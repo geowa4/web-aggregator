@@ -4,51 +4,48 @@ Q = require 'q'
 Posts = require 'Posts'
 PostList = require 'PostList'
 
+posts = new Posts()
+
+initialFetch = posts.fetch()
+
+ApplicationRouter = Backbone.Router.extend
+  routes:
+    '': 'posts'
+    '/': 'posts'
+    'about': 'about'
+
+  _preRoute: ->
+    $('[data-role=page]').css('display', 'none')
+    $('ul.nav li').removeClass 'active'
+
+  posts: ->
+    console.markTimeline('post-navigate')
+    @_preRoute()
+    $('ul.nav li.posts').addClass 'active'
+    initialFetch
+    .then =>
+      if !@postList?
+        @postList = new PostList
+          el: $('#feed .post-list')
+          collection: posts
+      @postList.render()
+      $('.posts[data-role=page]')
+      .css
+        opacity: 0
+        display: 'block'
+      .fadeIn 100
+    .done()
+
+  about: ->
+    @_preRoute()
+    $('ul.nav li.about').addClass 'active'
+    $('.about[data-role=page]')
+    .css
+      opacity: 0
+      display: 'block'
+    .fadeIn 100
+
 $.domReady ->
-  posts = new Posts()
-
-  ApplicationRouter = Backbone.Router.extend
-    routes:
-      '': 'posts'
-      '/': 'posts'
-      'about': 'about'
-
-    _preRoute: ->
-      deferred = Q.defer()
-      pages = $('[data-role=page]')
-      pages.fadeOut 250, () ->
-        pages.css('display', 'none')
-        deferred.resolve()
-      $('ul.nav li').removeClass 'active'
-      deferred.promise
-
-    posts: ->
-      @_preRoute()
-      .then ->
-        $('ul.nav li.posts').addClass 'active'
-        posts.fetch()
-      .then =>
-        if !@postList?
-          @postList = new PostList
-            el: $('#feed .post-list')
-            collection: posts
-        @postList.render()
-        $('.posts[data-role=page]')
-        .css
-          opacity: 0
-          display: 'block'
-        .fadeIn()
-      .done()
-
-    about: ->
-      @_preRoute().then ->
-        $('ul.nav li.about').addClass 'active'
-        $('.about[data-role=page]')
-        .css
-          opacity: 0
-          display: 'block'
-        .fadeIn()
-
   app = new ApplicationRouter()
   Backbone.history.start pushState: true
 
