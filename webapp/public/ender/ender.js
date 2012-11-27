@@ -2159,11 +2159,11 @@
     * https://github.com/ded/bonzo
     * License MIT
     */
-  (function (name, definition, context) {
+  (function (name, context, definition) {
     if (typeof module != 'undefined' && module.exports) module.exports = definition()
-    else if (typeof context['define'] == 'function' && context['define']['amd']) define(name, definition)
+    else if (typeof context['define'] == 'function' && context['define']['amd']) define(definition)
     else context[name] = definition()
-  })('bonzo', function() {
+  })('bonzo', this, function() {
     var win = window
       , doc = win.document
       , html = doc.documentElement
@@ -2227,6 +2227,24 @@
           function (s) {
             return s.replace(trimReplace, '')
           }
+  
+  
+    function isNode(node) {
+      return node && node.nodeName && (node.nodeType == 1 || node.nodeType == 11)
+    }
+  
+  
+    function normalize(node, host, clone) {
+      var i, l, ret
+      if (typeof node == 'string') return bonzo.create(node)
+      if (isNode(node)) node = [ node ]
+      if (clone) {
+        ret = [] // don't change original array
+        for (i = 0, l = node.length; i < l; i++) ret[i] = cloneNode(host, node[i])
+        return ret
+      }
+      return node
+    }
   
   
     /**
@@ -2323,10 +2341,6 @@
                 (f = parseFloat(d)) == d ? f : d;
       } catch(e) {}
       return undefined
-    }
-  
-    function isNode(node) {
-      return node && node.nodeName && (node.nodeType == 1 || node.nodeType == 11)
     }
   
   
@@ -3133,17 +3147,6 @@
   
     }
   
-    function normalize(node, host, clone) {
-      var i, l, ret
-      if (typeof node == 'string') return bonzo.create(node)
-      if (isNode(node)) node = [ node ]
-      if (clone) {
-        ret = [] // don't change original array
-        for (i = 0, l = node.length; i < l; i++) ret[i] = cloneNode(host, node[i])
-        return ret
-      }
-      return node
-    }
   
     function cloneNode(host, el) {
       var c = el.cloneNode(true)
@@ -3279,7 +3282,7 @@
       }
   
     return bonzo
-  }, this); // the only line we care about using a semi-colon. placed here for concatenation tools
+  }); // the only line we care about using a semi-colon. placed here for concatenation tools
   
 
   provide("bonzo", module.exports);
@@ -3501,15 +3504,15 @@
   /*!
     * @preserve Qwery - A Blazing Fast query selector engine
     * https://github.com/ded/qwery
-    * copyright Dustin Diaz & Jacob Thornton 2012
+    * copyright Dustin Diaz 2012
     * MIT License
     */
   
-  (function (name, definition, context) {
+  (function (name, context, definition) {
     if (typeof module != 'undefined' && module.exports) module.exports = definition()
-    else if (typeof context['define'] == 'function' && context['define']['amd']) define(name, definition)
+    else if (typeof context['define'] == 'function' && context['define']['amd']) define(definition)
     else context[name] = definition()
-  })('qwery', function () {
+  })('qwery', this, function () {
     var doc = document
       , html = doc.documentElement
       , byClass = 'getElementsByClassName'
@@ -3538,21 +3541,22 @@
       , dividers = new RegExp('(' + splitters.source + ')' + splittersMore.source, 'g')
       , tokenizr = new RegExp(splitters.source + splittersMore.source)
       , chunker = new RegExp(simple.source + '(' + attr.source + ')?' + '(' + pseudo.source + ')?')
-      , walker = {
-          ' ': function (node) {
-            return node && node !== html && node.parentNode
-          }
-        , '>': function (node, contestant) {
-            return node && node.parentNode == contestant.parentNode && node.parentNode
-          }
-        , '~': function (node) {
-            return node && node.previousSibling
-          }
-        , '+': function (node, contestant, p1, p2) {
-            if (!node) return false
-            return (p1 = previous(node)) && (p2 = previous(contestant)) && p1 == p2 && p1
-          }
+  
+    var walker = {
+        ' ': function (node) {
+          return node && node !== html && node.parentNode
         }
+      , '>': function (node, contestant) {
+          return node && node.parentNode == contestant.parentNode && node.parentNode
+        }
+      , '~': function (node) {
+          return node && node.previousSibling
+        }
+      , '+': function (node, contestant, p1, p2) {
+          if (!node) return false
+          return (p1 = previous(node)) && (p2 = previous(contestant)) && p1 == p2 && p1
+        }
+      }
   
     function cache() {
       this.c = {}
@@ -3680,7 +3684,7 @@
       if (!tokens.length) return r
   
       // filter further according to the rest of the selector (the left side)
-      each(r, function(e) { if (ancestorMatch(e, tokens, dividedTokens)) ret[ret.length] = e })
+      each(r, function (e) { if (ancestorMatch(e, tokens, dividedTokens)) ret[ret.length] = e })
       return ret
     }
   
@@ -3722,8 +3726,9 @@
     }
   
     function uniq(ar) {
-      var a = [], i, j
-      o: for (i = 0; i < ar.length; ++i) {
+      var a = [], i, j;
+      o:
+      for (i = 0; i < ar.length; ++i) {
         for (j = 0; j < a.length; ++j) if (a[j] == ar[i]) continue o
         a[a.length] = ar[i]
       }
@@ -3770,15 +3775,15 @@
     // where the root is not document and a relationship selector is first we have to
     // do some awkward adjustments to get it to work, even with qSA
     function collectSelector(root, collector) {
-      return function(s) {
+      return function (s) {
         var oid, nid
         if (splittable.test(s)) {
           if (root[nodeType] !== 9) {
-           // make sure the el has an id, rewrite the query, set root to doc and run it
-           if (!(nid = oid = root.getAttribute('id'))) root.setAttribute('id', nid = '__qwerymeupscotty')
-           s = '[id="' + nid + '"]' + s // avoid byId and allow us to match context element
-           collector(root.parentNode || root, s, true)
-           oid || root.removeAttribute('id')
+            // make sure the el has an id, rewrite the query, set root to doc and run it
+            if (!(nid = oid = root.getAttribute('id'))) root.setAttribute('id', nid = '__qwerymeupscotty')
+            s = '[id="' + nid + '"]' + s // avoid byId and allow us to match context element
+            collector(root.parentNode || root, s, true)
+            oid || root.removeAttribute('id')
           }
           return;
         }
@@ -3798,16 +3803,16 @@
         while (element = element.parentNode) if (element === container) return 1
         return 0
       }
-    , getAttr = function() {
+    , getAttr = function () {
         // detect buggy IE src/href getAttribute() call
         var e = doc.createElement('p')
         return ((e.innerHTML = '<a href="#x">x</a>') && e.firstChild.getAttribute('href') != '#x') ?
-          function(e, a) {
+          function (e, a) {
             return a === 'class' ? e.className : (a === 'href' || a === 'src') ?
               e.getAttribute(a, 2) : e.getAttribute(a)
           } :
-          function(e, a) { return e.getAttribute(a) }
-     }()
+          function (e, a) { return e.getAttribute(a) }
+      }()
     , hasByClass = !!doc[byClass]
       // has native qSA support
     , hasQSA = doc.querySelector && doc[qSA]
@@ -3820,13 +3825,13 @@
             return arrayify(root[qSA](selector))
           }
           // special case where we need the services of `collectSelector()`
-          each(ss = selector.split(','), collectSelector(root, function(ctx, s) {
+          each(ss = selector.split(','), collectSelector(root, function (ctx, s) {
             e = ctx[qSA](s)
             if (e.length == 1) result[result.length] = e.item(0)
             else if (e.length) result = result.concat(arrayify(e))
           }))
           return ss.length > 1 && result.length > 1 ? uniq(result) : result
-        } catch(ex) { }
+        } catch (ex) { }
         return selectNonNative(selector, root)
       }
       // no native selector support
@@ -3842,7 +3847,7 @@
           return result
         }
         // more complex selector, get `_qwery()` to do the work for us
-        each(ss = selector.split(','), collectSelector(root, function(ctx, s, rewrite) {
+        each(ss = selector.split(','), collectSelector(root, function (ctx, s, rewrite) {
           r = _qwery(s, ctx)
           for (i = 0, l = r.length; i < l; i++) {
             if (ctx[nodeType] === 9 || rewrite || isAncestor(r[i], root)) result[result.length] = r[i]
@@ -3864,7 +3869,7 @@
     qwery.pseudos = {}
   
     return qwery
-  }, this);
+  });
   
 
   provide("qwery", module.exports);
@@ -3965,33 +3970,6 @@
    * See the License for the specific language governing permissions and
    * limitations under the License.
    *
-   * With formatStackTrace and formatSourcePosition functions
-   * Copyright 2006-2008 the V8 project authors. All rights reserved.
-   * Redistribution and use in source and binary forms, with or without
-   * modification, are permitted provided that the following conditions are
-   * met:
-   *
-   *     * Redistributions of source code must retain the above copyright
-   *       notice, this list of conditions and the following disclaimer.
-   *     * Redistributions in binary form must reproduce the above
-   *       copyright notice, this list of conditions and the following
-   *       disclaimer in the documentation and/or other materials provided
-   *       with the distribution.
-   *     * Neither the name of Google Inc. nor the names of its
-   *       contributors may be used to endorse or promote products derived
-   *       from this software without specific prior written permission.
-   *
-   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-   * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-   * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-   * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-   * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-   * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-   * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-   * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-   * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
    */
   
   (function (definition) {
@@ -4201,133 +4179,55 @@
   
   // long stack traces
   
-  function formatStackTrace(error, frames) {
-      var lines = [];
-      try {
-          lines.push(error.toString());
-      } catch (e) {
-          try {
-              lines.push("<error: " + e + ">");
-          } catch (ee) {
-              lines.push("<error>");
-          }
-      }
-      for (var i = 0; i < frames.length; i++) {
-          var frame = frames[i];
-          var line;
+  var STACK_JUMP_SEPARATOR = "From previous event:";
   
-          // <Inserted by @domenic>
-          if (typeof frame === "string") {
-              lines.push(frame);
-          // </Inserted by @domenic>
-          } else {
-              try {
-                  line = formatSourcePosition(frame);
-              } catch (e) {
-                  try {
-                      line = "<error: " + e + ">";
-                  } catch (ee) {
-                      // Any code that reaches this point is seriously nasty!
-                      line = "<error>";
-                  }
-              }
-              lines.push("    at " + line);
-          }
+  function makeStackTraceLong(error, promise) {
+      // If possible (that is, if in V8), transform the error stack
+      // trace by removing Node and Q cruft, then concatenating with
+      // the stack trace of the promise we are ``done``ing. See #57.
+      if (promise.stack &&
+          typeof error === "object" &&
+          error !== null &&
+          error.stack &&
+          error.stack.indexOf(STACK_JUMP_SEPARATOR) === -1
+      ) {
+          error.stack = filterStackString(error.stack) +
+              "\n" + STACK_JUMP_SEPARATOR + "\n" +
+              filterStackString(promise.stack);
       }
-      return lines.join("\n");
   }
   
-  function formatSourcePosition(frame) {
-      var fileLocation = "";
-      if (frame.isNative()) {
-          fileLocation = "native";
-      } else if (frame.isEval()) {
-          fileLocation = "eval at " + frame.getEvalOrigin();
-      } else {
-          var fileName = frame.getFileName();
-          if (fileName) {
-              fileLocation += fileName;
-              var lineNumber = frame.getLineNumber();
-              if (lineNumber !== null) {
-                  fileLocation += ":" + lineNumber;
-                  var columnNumber = frame.getColumnNumber();
-                  if (columnNumber) {
-                      fileLocation += ":" + columnNumber;
-                  }
-              }
+  function filterStackString(stackString) {
+      var lines = stackString.split("\n");
+      var desiredLines = [];
+      for (var i = 0; i < lines.length; ++i) {
+          var line = lines[i];
+  
+          if (!isInternalFrame(line) && !isNodeFrame(line)) {
+              desiredLines.push(line);
           }
       }
-      if (!fileLocation) {
-          fileLocation = "unknown source";
-      }
-      var line = "";
-      var functionName = frame.getFunction().name;
-      var addPrefix = true;
-      var isConstructor = frame.isConstructor();
-      var isMethodCall = !(frame.isToplevel() || isConstructor);
-      if (isMethodCall) {
-          var methodName = frame.getMethodName();
-          line += frame.getTypeName() + ".";
-          if (functionName) {
-              line += functionName;
-              if (methodName && (methodName !== functionName)) {
-                  line += " [as " + methodName + "]";
-              }
-          } else {
-              line += methodName || "<anonymous>";
-          }
-      } else if (isConstructor) {
-          line += "new " + (functionName || "<anonymous>");
-      } else if (functionName) {
-          line += functionName;
-      } else {
-          line += fileLocation;
-          addPrefix = false;
-      }
-      if (addPrefix) {
-          line += " (" + fileLocation + ")";
-      }
-      return line;
+      return desiredLines.join("\n");
   }
   
-  function isInternalFrame(fileName, frame) {
-      if (fileName !== qFileName) {
+  function isNodeFrame(stackLine) {
+      return stackLine.indexOf("(module.js:") !== -1 ||
+             stackLine.indexOf("(node.js:") !== -1;
+  }
+  
+  function isInternalFrame(stackLine) {
+      var pieces = /at .+ \((.*):(\d+):\d+\)/.exec(stackLine);
+  
+      if (!pieces) {
           return false;
       }
-      var line = frame.getLineNumber();
-      return line >= qStartingLine && line <= qEndingLine;
-  }
   
-  /*
-   * Retrieves an array of structured stack frames parsed from the ``stack``
-   * property of a given object.
-   *
-   * @param objectWithStack {Object} an object with a ``stack`` property: usually
-   * an error or promise.
-   *
-   * @returns an array of stack frame objects. For more information, see
-   * [V8's JavaScript stack trace API documentation](http://code.google.com/p/v8/wiki/JavaScriptStackTraceApi).
-   */
-  function getStackFrames(objectWithStack) {
-      var oldPrepareStackTrace = Error.prepareStackTrace;
+      var fileName = pieces[1];
+      var lineNumber = pieces[2];
   
-      Error.prepareStackTrace = function (error, frames) {
-          // Filter out frames from the innards of Node and Q.
-          return frames.filter(function (frame) {
-              var fileName = frame.getFileName();
-              return (
-                  fileName !== "module.js" &&
-                  fileName !== "node.js" &&
-                  !isInternalFrame(fileName, frame)
-              );
-          });
-      };
-  
-      var stack = objectWithStack.stack;
-  
-      Error.prepareStackTrace = oldPrepareStackTrace;
-  
-      return stack;
+      return fileName === qFileName &&
+          lineNumber >= qStartingLine &&
+          lineNumber <= qEndingLine;
   }
   
   // discover own file name and line number range for filtering stack
@@ -4417,6 +4317,11 @@
   
       if (Error.captureStackTrace) {
           Error.captureStackTrace(promise, defer);
+  
+          // Reify the stack into a string by using the accessor; this prevents
+          // memory leaks as per GH-111. At the same time, cut off the first line;
+          // it's always just "[object Promise]\n", as per the `toString`.
+          promise.stack = promise.stack.substring(promise.stack.indexOf("\n") + 1);
       }
   
       function become(resolvedValue) {
@@ -4565,6 +4470,7 @@
           "view", "viewInfo",
           "timeout", "delay",
           "catch", "finally", "fail", "fin", "progress", "end", "done",
+          "nfcall", "nfapply", "nfbind",
           "ncall", "napply", "nbind",
           "npost", "ninvoke",
           "nend", "nodeify"
@@ -4601,13 +4507,7 @@
    */
   exports.nearer = valueOf;
   function valueOf(value) {
-      // if !Object.isObject(value)
-      // generates a known JSHint "constructor invocation without new" warning
-      // supposed to be fixed, but isn't? https://github.com/jshint/jshint/issues/392
-      /*jshint newcap: false */
-      if (Object(value) !== value) {
-          return value;
-      } else if (isPromise(value)) {
+      if (isPromise(value)) {
           return value.valueOf();
       }
       return value;
@@ -4872,11 +4772,15 @@
       }
   
       function _rejected(exception) {
-          try {
-              return rejected ? rejected(exception) : reject(exception);
-          } catch (newException) {
-              return reject(newException);
+          if (rejected) {
+              makeStackTraceLong(exception, resolvedValue);
+              try {
+                  return rejected(exception);
+              } catch (newException) {
+                  return reject(newException);
+              }
           }
+          return reject(exception);
       }
   
       function _progressed(value) {
@@ -5353,27 +5257,7 @@
           // forward to a future turn so that ``when``
           // does not catch it and turn it into a rejection.
           nextTick(function () {
-              // If possible (that is, if in V8), transform the error stack
-              // trace by removing Node and Q cruft, then concatenating with
-              // the stack trace of the promise we are ``done``ing. See #57.
-              var errorStackFrames;
-              if (
-                  Error.captureStackTrace &&
-                  typeof error === "object" &&
-                  (errorStackFrames = getStackFrames(error))
-              ) {
-                  var promiseStackFrames = getStackFrames(promise);
-  
-                  // Check to make sure the stack trace hasn't already been
-                  // rendered (possibly by us).
-                  if (typeof errorStackFrames !== "string") {
-                      var combinedStackFrames = errorStackFrames.concat(
-                          "From previous event:",
-                          promiseStackFrames
-                      );
-                      error.stack = formatStackTrace(error, combinedStackFrames);
-                  }
-              }
+              makeStackTraceLong(error, promise);
   
               if (exports.onerror) {
                   exports.onerror(error);
@@ -5409,7 +5293,11 @@
       when(promise, function (value) {
           clearTimeout(timeoutId);
           deferred.resolve(value);
-      }, deferred.reject);
+      }, function (exception) {
+          clearTimeout(timeoutId);
+          deferred.reject(exception);
+      });
+  
       return deferred.promise;
   }
   
@@ -5435,6 +5323,68 @@
   }
   
   /**
+   * Passes a continuation to a Node function, which is called with the given
+   * arguments provided as an array, and returns a promise.
+   *
+   *      var readFile = require("fs").readFile;
+   *      Q.nfapply(readFile, [__filename])
+   *      .then(function (content) {
+   *      })
+   *
+   */
+  exports.nfapply = nfapply;
+  function nfapply(callback, args) {
+      var nodeArgs = array_slice(args);
+      var deferred = defer();
+      nodeArgs.push(deferred.makeNodeResolver());
+  
+      fapply(callback, nodeArgs).fail(deferred.reject);
+      return deferred.promise;
+  }
+  
+  /**
+   * Passes a continuation to a Node function, which is called with the given
+   * arguments provided individually, and returns a promise.
+   *
+   *      var readFile = require("fs").readFile;
+   *      Q.nfcall(readFile, __filename)
+   *      .then(function (content) {
+   *      })
+   *
+   */
+  exports.nfcall = nfcall;
+  function nfcall(callback/*, ...args */) {
+      var nodeArgs = array_slice(arguments, 1);
+      var deferred = defer();
+      nodeArgs.push(deferred.makeNodeResolver());
+  
+      fapply(callback, nodeArgs).fail(deferred.reject);
+      return deferred.promise;
+  }
+  
+  /**
+   * Wraps a NodeJS continuation passing function and returns an equivalent
+   * version that returns a promise.
+   *
+   *      Q.nfbind(FS.readFile, __filename)("utf-8")
+   *      .then(console.log)
+   *      .done()
+   *
+   */
+  exports.nfbind = nfbind;
+  function nfbind(callback/*, ...args */) {
+      var baseArgs = array_slice(arguments, 1);
+      return function () {
+          var nodeArgs = baseArgs.concat(array_slice(arguments));
+          var deferred = defer();
+          nodeArgs.push(deferred.makeNodeResolver());
+  
+          fapply(callback, nodeArgs).fail(deferred.reject);
+          return deferred.promise;
+      };
+  }
+  
+  /**
    * Passes a continuation to a Node function, which is called with a given
    * `this` value and arguments provided as an array, and returns a promise.
    *
@@ -5444,7 +5394,7 @@
    *      })
    *
    */
-  exports.napply = napply;
+  exports.napply = deprecate(napply, "napply", "npost");
   function napply(callback, thisp, args) {
       return nbind(callback, thisp).apply(void 0, args);
   }
@@ -5459,7 +5409,7 @@
    *      })
    *
    */
-  exports.ncall = ncall;
+  exports.ncall = deprecate(ncall, "ncall", "ninvoke");
   function ncall(callback, thisp /*, ...args*/) {
       var args = array_slice(arguments, 2);
       return napply(callback, thisp, args);
@@ -5474,7 +5424,7 @@
    *      .done()
    *
    */
-  exports.nbind = nbind;
+  exports.nbind = deprecate(nbind, "nbind", "nfbind");
   function nbind(callback /* thisp, ...args*/) {
       if (arguments.length > 1) {
           var thisp = arguments[1];
@@ -6337,7 +6287,7 @@
           if (success) success(model, resp);
         };
         options.error = Backbone.wrapError(options.error, model, options);
-        return (this.sync || Backbone.sync).call(this, 'read', this, options).then(options.success, options.error);
+        return (this.sync || Backbone.sync).call(this, 'read', this, options);
       },
   
       // Set a hash of model attributes, and sync the model to the server.
@@ -6756,7 +6706,7 @@
           if (success) success(collection, resp);
         };
         options.error = Backbone.wrapError(options.error, collection, options);
-        return (this.sync || Backbone.sync).call(this, 'read', this, options).then(options.success, options.error);
+        return (this.sync || Backbone.sync).call(this, 'read', this, options);
       },
   
       // Create a new instance of a model in this collection. Add the model to the
@@ -7440,7 +7390,8 @@
   var module = { exports: {} }, exports = module.exports;
 
   !(function (factory) {
-    if (typeof exports === 'object') module.exports = factory(require('q'))
+    if (typeof module !== 'undefined' && typeof module.exports === 'object')
+      module.exports = factory(require('q'))
     else if (typeof define === 'function' && define.amd) define(['q'], factory)
     else this['pj'] = factory(this['Q'])
   } (function (Q) {
@@ -7699,6 +7650,7 @@
         }
       , pajamas = function (options) {
           var deferred = Q.defer()
+            , promise = deferred.promise
             , o = options == null ? {} : clone(options)
             , defaultUrl = (function () {
                 var anchor
@@ -7710,6 +7662,7 @@
                   return anchor.href
                 }
               } ())
+          
           o.type = o.type ? o.type.toUpperCase() : 'GET'
           o.url || (o.url = defaultUrl)
           o.data = (o.data && o.processData !== false &&
@@ -7718,13 +7671,26 @@
             (o.data || null)
           o.dataType || (o.dataType = inferDataType(o.url))
           o.crossDomain || (o.crossDomain = isCrossDomain(o.url, defaultUrl))
+          
           if (o.data && typeof o.data === 'string' && o.type === 'GET') {
             o.url = urlAppend(o.url, o.data)
             o.data = null
           }
+          
           if (!o.crossDomain && o.dataType !== 'jsonp') sendLocal(o, deferred)
           else sendRemote(o, deferred)
-          return deferred.promise
+  
+          return promise
+          .then(function (value) {
+              var ret = o.success && o.success(value)
+              return ret || value
+            }
+          , function (reason) {
+              var ret = o.error && o.error(reason)
+              if (ret) return ret
+              // throw reason if o.error didn't throw or return
+              throw reason
+            })
         }
   
     pajamas.param = function (data) {
@@ -7883,8 +7849,7 @@
     }
   
     return pajamas
-  }))
-  
+  }));
 
   provide("pajamas", module.exports);
 
