@@ -55,6 +55,14 @@ $.domReady ->
   $('ul.nav').on 'click', 'a', navigate
   $('a.brand').on 'click', navigate
 
+  $('[data-toggle=collapse]').on 'click', (evt) ->
+    evt.preventDefault()
+    target = $($(this).attr('data-target'))
+    target
+    .animate
+      height: if target.height() is 0 then 72 else 0
+      duration: 200
+
   $('.more-posts .btn').on 'click', (evt) ->
     evt.preventDefault()
     button = $(this)
