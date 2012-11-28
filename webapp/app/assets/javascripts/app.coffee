@@ -19,7 +19,6 @@ ApplicationRouter = Backbone.Router.extend
     $('ul.nav li').removeClass 'active'
 
   posts: ->
-    console.markTimeline('post-navigate')
     @_preRoute()
     $('ul.nav li.posts').addClass 'active'
     initialFetch

@@ -28,7 +28,6 @@ PostList = Backbone.View.extend
     @collection.on 'all', _.bind(@render, this)
 
   render: () ->
-    console.markTimeline('start-render')
     currentHead = @collection.first()
     lastPostItem = null
     @collection.each (post) =>
@@ -47,7 +46,6 @@ PostList = Backbone.View.extend
         @items[post.id] = postItem
 
     @headPost = @collection.first()
-    console.markTimeline('end-render')
     this
 
 provide 'PostList', PostList
